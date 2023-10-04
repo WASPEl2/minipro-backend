@@ -1,0 +1,456 @@
+{
+    "data": [
+        {
+            "herb_id": "3",
+            "herb_th_name": "โหระพา",
+            "herb_en_name": "sweet Basil",
+            "herb_image": "https://img.kapook.com/u/2019/sireeporn/Health-1/P2.jpg",
+            "herb_description": "มีถิ่นกำเนิดในทวีปเอเชียและแอฟริกาเป็นพืชพื้นเมืองของอินเดียแต่แพร่หลายในเอเชียและตะวันตก โหระพาเป็นพืชสมุนไพรที่มีกลิ่นหอมนิยมอย่างมากในการนำมาประกอบอาหารและแต่งกลิ่นของรสชาติให้น่ารับประทานยิ่งขึ้น",
+            "herb_scientific_name": "Ocimum basilicum Linn.",
+            "herb_family": "Labiatae",
+            "caution":"----------------------input here------------------------------------",
+            "herb_characteristics": [
+                {
+                    "character_name": "ลำต้น",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/785/785202.png",
+                    "character_description": "มีลักษณะเป็นสี่เหลี่ยม ลำต้นเดี่ยวโคนต้นสูง มีสีม่วงแดง มีกิ่งอ่อนสีม่วงแดง"
+                },
+                {
+                    "character_name": "ใบ",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
+                    "character_description": "ใบมีลักษณะเล็กยาวรี โคนมนปลายแหลม มีสีเขียว ใบเป็นใบเดี่ยวออกตรงข้าม ขอบเป็นฟันเลื่อยห่างๆ มีก้านใบรองรับ ใบมีน้ำมันหอมระเหย methyl chavicol และ linalool"
+                },
+                {
+                    "character_name": "ราก",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/100/100663.png",
+                    "character_description": "มีระบบรากแก้ว รากมีลักษณะกลมเล็กๆ  มีรากฝอยๆ จะมีสีน้ำตาล มีกลิ่นหอมเฉพาะตัว"
+                }
+            ],
+            "properties": [
+                {
+                    "property_name": "ป้องกันโรคหัวใจได้",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/1077/1077035.png",
+                    "property_description": "โหระพามีเบต้าแคโรทีนสูง จึงสามารถช่วยป้องกันโรคหัวใจได้"
+                },
+                {
+                    "property_name": "ช่วยให้เจริญอาหาร",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/562/562678.png",
+                    "property_description": "กลิ่นหอมจากน้ำมันหอมระเหยที่มีอยู่ในใบโหระพามีสรรพคุณช่วยขับลม ทำให้เจริญอาหาร"
+                },
+                {
+                    "property_name": "แก้ปวดหัว แก้หวัด",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/2599/2599508.png",
+                    "property_description": "น้ำมันหอมระเหยจากใบโหระพาช่วยแก้อาการปวดหัว และแก้หวัดได้ "
+                },
+                {
+                    "property_name": "แก้บิด ช่วยระบาย",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/3000/3000118.png",
+                    "property_description": "เมล็ดของโหระพามีเมือกที่ช่วยหล่อลื่นลำไส้ช่วยเพิ่มปริมาณกากใยอาหารทำให้ขับถ่ายได้ง่ายขึ้น โดยใช้เมล็ดโหระพาแช่น้ำ กินแก้ปวดท้องบิด ช่วยระบาย"
+                }
+            ]
+ 
+        },
+        {
+            "herb_id": "1",
+            "herb_th_name": "ชะพลู",
+            "herb_en_name": "Eilerd",
+            "herb_image": "https://f.ptcdn.info/153/077/000/rb9f1y3sw6R9j39JxNuO-o.jpg",
+            "herb_description": "ชะพลูเป็นพันธุ์ไม้ที่ชอบพื้นที่ลุ่ม มีความชื้น ขยายพันธุ์ด้วยวิธีการปักชำ โดยการเลือกกิ่งที่มีใบอ่อนและใบแก่ เด็ดใบแก่ออกและนำไปปักชำได้",
+            "herb_scientific_name": "Piper sarmentosum Roxb.",
+            "herb_family": "Piperaceae",
+            "herb_characteristics": [
+                {
+                    "character_name": "ใบ",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
+                    "character_description": "เป็นใบเดี่ยว ออกเรียงสลับ แผ่นใบบาง ผิวใบเรียบสีเขียวเข้มเป็นมัน ใบรูปหัวใจกว้าง 5-10 เซนติเมตร ยาว 7-15 เซนติเมตร ปลายใบแหลม โคนใบเว้า"
+                },
+                {
+                    "character_name": "ดอก",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/3386/3386351.png",
+                    "character_description": "ออกเป็นช่อที่ซอกใบรูปทรงกระบอก ดอกเล็กสีขาวอัดแน่นอยู่บนแกนช่อดอก ดอกแยกเพศ"
+                },
+                {
+                    "character_name": "ผล",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/601/601984.png",
+                    "character_description": "เป็นผลสด กลม อัดแน่นอยู่บนแกน"
+                }
+            ],
+            "properties": [
+                {
+                    "property_name": "ปรับสมดุลธาตุภายในร่างกาย",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/10873/10873875.png",
+                    "property_description": "ใบชะพลูมีฤทธิ์ร้อน ช่วยปรับสมดุลธาตุภายในร่างกาย ช่วยกระตุ้นการไหลเวียนของเลือดลมทำให้ร่างกายสดชื่นกระปรี้กระเปร่ามากขึ้น"
+                },
+                {
+                    "property_name": "ช่วยต้านสารอนุมูลอิสระ",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/4300/4300793.png",
+                    "property_description": "ใบชะพลูมีสารเบต้าแคโรทีนสูง จึงช่วยต้านสารอนุมูลอิสระ ลดอาการอักเสบและชะลอความเสื่อมสภาพของเซลล์ในร่างกาย ทำให้เซลล์อ่อนเยาว์ สุขภาพแข็งมากขึ้น"
+                },
+                {
+                    "property_name": "ช่วยบำรุงสายตา",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/1078/1078327.png",
+                    "property_description": "ใบชะพลูช่วยบำรุงสายตา ช่วยป้องกันประสาทตาเสื่อม ช่วยป้องกันโรคตาบอดกลางคืน"
+                },
+                {
+                    "property_name": "กระตุ้นการทำงานของระบบย่อยอาหารและการขับถ่าย",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/10154/10154432.png",
+                    "property_description": "ใบชะพลูให้เส้นใยอาหารสูงมาก จึงมีส่วนช่วยลดอาการแน่นท้อง อึดอัดท้อง ไม่สบายท้อง และยังมีส่วนช่วยกระตุ้นการขับถ่าย ลดอาการท้องผูก"
+                }
+            ]
+ 
+        },
+        {
+            "herb_id": "5",
+            "herb_th_name": "มะนาว",
+            "herb_en_name": "lime",
+            "herb_image": "https://cdn-cakfh.nitrocdn.com/uCvbbthIGuqozYBVHNiffOSAfPDdhkkl/assets/images/optimized/rev-aaacaf7/kaset.today/wp-content/uploads/2021/03/2-64.jpg",
+            "herb_description": "เป็นพืชพื้นเมืองในภูมิภาคเอเชียตะวันออกเฉียงใต้ ใช้เป็นเครื่องปรุงรส นอกจากนี้ยังถือว่ามีคุณค่าทางโภชนาการและทางการแพทย์ด้วย",
+            "herb_scientific_name": " Citrus aurantifolia",
+            "herb_family": "Rutaceae",
+            "herb_characteristics": [
+                {
+                    "character_name": "ใบ",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
+                    "character_description": "ใบยาวเรียวเล็กน้อย คล้ายใบส้ม"
+                },
+                {
+                    "character_name": "ผล",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1410/1410689.png",
+                    "character_description": "มีขนาดเส้นผ่านศูนย์กลางประมาณ 4 – 4.5 เซนติเมตร"
+                },
+                {
+                    "character_name": "ลำต้น",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/785/785202.png",
+                    "character_description": "เป็นไม้พุ่มเตี้ย สูงเต็มที่ราว 5 เมตร ก้านมีหนามเล็กน้อย"
+                }
+            ],
+            "properties": [
+                {
+                    "property_name": "ช่วยบรรเทาอาการท้องอืด ท้องเฟ้อ",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/4299/4299865.png",
+                    "property_description": "ช่วยบรรเทาอาการท้องอืด ท้องเฟ้อ ปวดท้อง แน่นท้อง ด้วยการนำน้ำมะนาวมาใช้กินกับน้ำตาล"
+                },
+                {
+                    "property_name": "ช่วยรักษาโรคกระเพาะ",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/10154/10154432.png",
+                    "property_description": "ช่วยรักษาโรคกระเพาะด้วยการนำเปลือกมะนาวมาชงกับน้ำอุ่นและดื่มเป็นยา"
+                },
+                {
+                    "property_name": "บรรเทาอาการอ่อนเพลีย",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/3782/3782567.png",
+                    "property_description": " ช่วยบรรเทาอาการอ่อนเพลียด้วยการดื่มน้ำมะนาวผสมน้ำตาล"
+                }
+            ]
+ 
+        },
+        {
+            "herb_id": "2",
+            "herb_th_name": "ฟ้าทะลายโจร",
+            "herb_en_name": "Andrographis",
+            "herb_image": "https://img.pptvhd36.com/health/thumbor/2023/01/30/b28c068.jpg",
+            "herb_description": "เป็นพืชล้มลุกฤดูเดียว ในตระกูล Acanthaceae มีถิ่นกำเนิดในอินเดียและศรีลังกา โดยในตำรายาโบราณของไทย จัดให้เป็นสมุนไพรพื้นบ้านที่สามารถหามารับประทานแก้โรคได้เอง",
+            "herb_scientific_name": "Andrographis paniculata (Burm.f.) Wall. ex Nees",
+            "herb_family": "Acanthaceae",
+            "herb_characteristics": [
+                {
+                    "character_name": "ใบ",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
+                    "character_description": "ใบรียาว ปลายใบแหลม"
+                },
+                {
+                    "character_name": "ดอก",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/3386/3386351.png",
+                    "character_description": "ดอกขนาดเล็กสีขาว มีรอยกระสีม่วงแดง ลักษณะเป็นหลอด ฝักคล้ายฝักต้อยติ่ง"
+                },
+                {
+                    "character_name": "ลำต้น",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/785/785202.png",
+                    "character_description": "ลำต้นเป็นสี่เหลี่ยม สูงประมาณ 30-70 ซม.  แตกกิ่งมาก"
+                }
+            ],
+            "properties": [
+                {
+                    "property_name": "ช่วยลดอาการอักเสบ",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/10154/10154440.png",
+                    "property_description": "ช่วยลดอาการอักเสบ เช่น เเก้คออักเสบ หรือ ต่อทอมซินอักเสบ โดยใช้ใบฟ้าทะลายโจรมาบดเป็นยาขมเเละสูดดม"
+                },
+                {
+                    "property_name": "ทำให้ชุ่มคอ",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/2760/2760700.png",
+                    "property_description": " ความขมของฟ้าทะลายโจร จะช่วยให้ร่างกายขับน้ำลายออกมามากขึ้น"
+                },
+                {
+                    "property_name": "ช่วยลดอาการติดเชื้อ",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/2877/2877968.png",
+                    "property_description": "ระงับการเจริญเติบโตของเชื้้อโรคที่เป็นจุดเริ่มต้นของอาการปวดท้อง หรือ ท้องเสีย โดยใช้ต้นฟ้าทะลายโจรมาผึ่งลมให้แห้งเเละหั่นเป็นชิ้นเล็กๆ เเละต้มกับน้ำเพื่อดื่มตลอดทั้งวัน"
+                }
+            ]
+ 
+        },
+        {
+            "herb_id": "4",
+            "herb_th_name": "กะเพรา",
+            "herb_en_name": "Holy basil",
+            "herb_image": "https://i0.wp.com/images-prod.healthline.com/hlcmsresource/images/topic_centers/Food-Nutrition/1296x728_Holy_Basil.jpg?w=1155&h=1528",
+            "herb_description": "เป็นพืชพื้นเมืองของเขตร้อนในถิ่นโลกเก่า คือบริเวณเขตร้อนของทวีปเอเชียและแอฟริกาแต่พบมากในแถบเอเชียใต้และเอเชียตะวันออกเฉียงใต้ โดยสามารถพบได้ทั้งในแบบที่ขึ้นเองตามธรรมชาติ และแบบที่ปลูกไว้เพื่อใช้ประโยชน์",
+            "herb_scientific_name": "Ocimum tenuiflorum L.",
+            "herb_family": "Lamiaceae",
+            "herb_characteristics": [
+                {
+                    "character_name": "ใบ",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
+                    "character_description": " ออกตรงกันข้าม ปลายใบแหลม ขอบใบหยัก มีกลิ่่นหอมฉุน "
+                },
+                {
+                    "character_name": "ดอก",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/3386/3386351.png",
+                    "character_description": " ออกเป็นช่อตั้งขึ้นไปเป็นชั้นๆ คล้ายฉัตร คล้ายดอกใบโหระพาหรือแมงลัก"
+                },
+                {
+                    "character_name": "ลำต้น",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/785/785202.png",
+                    "character_description": "เป็นพืชล้มลุกขนาดเล็ก พุ่มเตี้ยแตกกิ งก้านสาขามาก ล่าต้นและใบมีขน (ส่วนที อ่อนจะมีขนปกคลุมมากกว่าส่วนที แก่)"
+                }
+            ],
+            "properties": [
+                {
+                    "property_name": "ช่วยบรรเทาอาการคลื่นไส้อาเจียน",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/7959/7959792.png",
+                    "property_description": "โดยใช้ใบเเละยอดสดมาต้มเเละดื่ม เพื่อบรรเทาอาการคลื่นไส้อาเจียนได้"
+                },
+                {
+                    "property_name": "ช่วยขับลมในกระเพาะอาหาร เเก้จุดเสียดแน่นท้องได้ ",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/4299/4299865.png",
+                    "property_description": "ด้วยรสฉุนเเละร้อนช่วยเรื่องขับลมแก้ซาง แก้ท้องอืด ท้องขึ้น จุกเสียด ปวดท้องได้เป็นอย่างดี อีกทั้งยังช่วยในการย่อยอาหารอีกด้วย"
+                },
+                {
+                    "property_name": "ช่วยยับยั้งการเจริญเติบโตของเชื้อโรค",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/2877/2877968.png",
+                    "property_description": "สามารถฆ่าเชื้อจุลินทรีย์บางชนิดซึ่งเป็นสาเหตุที่ทำให้เกิดโรค"
+                }
+            ]
+ 
+        },
+        {
+            "herb_id": "6",
+            "herb_th_name": "มะกรูด",
+            "herb_en_name": "Kaffir lime",
+            "herb_image": "https://www.technologychaoban.com/wp-content/uploads/2018/01/3-%E0%B8%A1%E0%B8%B0%E0%B8%81%E0%B8%A3%E0%B8%B9%E0%B8%943.jpg",
+            "herb_description": "มะกรูดเป็นพืชตระกูลส้ม และมะนาวเป็นพืชพื้นเมืองในเขตร้อนชื้นแถบประเทศเอเชียตะวันออกเฉียงใต้ เป็นสมุนไพรคู่ครัวไทยมาอย่างยาวนาน เพราะนิยมใช้เป็นส่วนผสมในเครื่องแกง",
+            "herb_scientific_name": "Citrus hystrix DC",
+            "herb_family": "Rutaceae",
+            "herb_characteristics": [
+                {
+                    "character_name": "ใบ",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
+                    "character_description": "มีลักษณะหนา เรียบ มีผิวมัน สีเขียว และเขียวเข้มตามอายุของใบ ใบมีกลิ่นหอมมากเพราะมีต่อมน้ำมันอยู่"
+                },
+                {
+                    "character_name": "ดอก",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/3386/3386351.png",
+                    "character_description": " เป็นดอกสมบูรณ์เพศ ดอกออกเป็นช่อมีสีขาว แทงออกบริเวณส่วนยอดหรือตามซอกใบ"
+                },
+                {
+                    "character_name": "ผล",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1410/1410689.png",
+                    "character_description": "ลักษณะของผลมีรูปร่างแตกต่างกันไปแล้วแต่พันธุ์ เปลือกผลค่อนข้างหนา ผิวเปลือกมีสีเขียวเข้ม ผิวขรุขระเป็นปุ่มนูน ภายในเปลือกมีต่อมน้ำมันหอมระเหยเป็นจำนวนมาก"
+                }
+            ],
+            "properties": [
+                {
+                    "property_name": "แก้อาการไข้",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/3781/3781946.png",
+                    "property_description": "รากของมะกรูดมีรสจืดเย็น สามารถช่วยแก้อาการไข้ ถอนพิษสำแดง แก้ลมจุกเสียด กระทุ้งพิษไข้ แก้พิษฝีภายใน และช่วยอาการเสมหะเป็นพิษ"
+                },
+                {
+                    "property_name": "แก้อาหารนอนไม่หลับ",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/3997/3997686.png",
+                    "property_description": "โดยนำผิวของมะกรูดบดรวมกับรากชะเอม ไพล เฉียงพร้า ขมิ้นอ้อยแล้วนำมาต้มน้ำดื่ม"
+                },
+                {
+                    "property_name": "ช่วยต่อต้านมะเร็ง",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/2201/2201918.png",
+                    "property_description": "ใบมะกรูดอุดมไปด้วยเบต้าแคโรทีนซึ่งช่วยในการชะลอการขยายตัวของเซลล์มะเร็งและช่วยต่อต้านมะเร็งได้"
+                }
+            ]
+ 
+        },
+        {
+            "herb_id": "7",
+            "herb_th_name": "พลู",
+            "herb_en_name": "Betel",
+            "herb_image": "https://puechkaset.com/wp-content/uploads/2015/11/%E0%B8%9E%E0%B8%A5%E0%B8%B9.png",
+            "herb_description": "มีถิ่นกำเนิดในเขตร้อนชื้นในแถบเอเชียใต้ โดยพบว่าพลูมีมากกว่า 100 สายพันธุ์ทั่วโลกซึ่งส่วนใหญ่พบได้มากในประเทศอินเดียกว่า 40 สายพันธุ์",
+            "herb_scientific_name": "Piper betle",
+            "herb_family": "Piperaceae",
+            "herb_characteristics": [
+                {
+                    "character_name": "ใบ",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
+                    "character_description": "ใบเดี่ยว เรียงสลับ รูปหัวใจ กว้าง 8-12 ซม. ยาว 12-16 ซม. มีกลิ่นเฉพาะและมีรสเผ็ด"
+                },
+                {
+                    "character_name": "ดอก",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/3386/3386351.png",
+                    "character_description": "ออกที่ซอกใบ ดอกย่อยขนาดเล็กอัดแน่นเป็นรูปทรงกระบอก"
+                },
+                {
+                    "character_name": "ผล",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1410/1410689.png",
+                    "character_description": "เป็นผลสด กลมเล็กเบียดอยู่บนแกน"
+                }
+            ],
+            "properties": [
+                {
+                    "property_name": "แก้อาการท้องอืดท้องเฟ้อ",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/4299/4299865.png",
+                    "property_description": "ใช้ใบสดโขลกให้ละเอียดคั้นเอาน้ำผสมกับน้ำร้อนสักหนึ่งแก้วดื่ม ช่วยลดอาการปวดจุกแน่นเฟ้อและบำรุงกระเพาะอาหารด้วย"
+                },
+                {
+                    "property_name": "ลดปวดบวม",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/3736/3736120.png",
+                    "property_description": "ใช้ใบพลูเลือกใบใหญ่ ๆ นำไปอังไฟให้ร้อนใช้ไปประคบบริวณที่ปวดบวมช้ำ"
+                },
+                {
+                    "property_name": "รักษากลากและฮ่องกงฟุต",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/4383/4383657.png",
+                    "property_description": "เอาใบสดโขลกให้ละเอียดดองกับเหล้าขาวทิ้งไว้ 15 วัน แล้วกรองเอาแต่น้ำใช้ทาบริเวณที่เป็น"
+                }
+            ]
+ 
+        },
+        {
+            "herb_id": "8",
+            "herb_th_name": "สาบเสือ",
+            "herb_en_name": "Bitter bush , Siam Weed",
+            "herb_image": "https://cdn-cakfh.nitrocdn.com/uCvbbthIGuqozYBVHNiffOSAfPDdhkkl/assets/images/optimized/rev-aaacaf7/kaset.today/wp-content/uploads/2021/01/28981.jpg",
+            "herb_description": "สมุนไพรอย่างหนึ่งที่หาง่ายมากมีอยู่ทั่วไป จัดว่าเป็นวัชพืชที่มีสรรพคุณทางยาที่ใช้ประโยชน์ ใช้ต้นสาบเสือเป็นดรรชนีชี้วัดอุณหภูมิความแห้งแล้งของอากาศ เพราะหากอากาศไม่แล้งต้นสาบเสือก็จะไม่ออกดอก",
+            "herb_scientific_name": "Chromolaena odorata",
+            "herb_family": "Compositae",
+            "herb_characteristics": [
+                {
+                    "character_name": "ใบ",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
+                    "character_description": " ลักษณะของใบคล้ายรูปรีทรงรูปสามเหลี่ยม ปลายใบแหลม ฐานใบกว้าง ใบเรียวสอบเข้าหากัน มีขอบใบหยัก ที่ใบเห็นเส้นชัดเจน 3 เส้น ผิวใบทั้งสองด้านมีขนอ่อนปกคลุม ใบและก้านเมื่อนำมาขยี้จะมีกลิ่นแรงคล้ายกลิ่นสาบเสือ"
+                },
+                {
+                    "character_name": "ดอก",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/3386/3386351.png",
+                    "character_description": " ดอกออกเป็นช่อ มีสีขาวหรือสีฟ้าอมม่วง มีดอกย่อยประมาณ 10-35 ดอก โดยดอกวงนอกจะบานก่อนดอกวงใน ที่กลีบดอกหลอมรวมกันเป็นหลอด"
+                },
+                {
+                    "character_name": "ผล",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1410/1410689.png",
+                    "character_description": "ผลขนาดเล็ก มีรูปร่างคล้ายรูปห้าเหลี่ยม มีสีน้ำตาลหรือสีดำ มีหนามแข็งบนเส้นของผล ที่ปลายผลมีขนสีขาว ช่วงพยุงให้ผลและเมล็ดสามารถปลิวตามลมได้"
+                }
+            ],
+            "properties": [
+                {
+                    "property_name": "แก้อักเสบ",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/10154/10154440.png",
+                    "property_description": "รากมีสรรพคุณช่วยสมานแผล แก้อักเสบ"
+                },
+                {
+                    "property_name": "ช่วยยับยั้งการเจริญเติบโตของเชื้อแบคทีเรีย",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/2877/2877968.png",
+                    "property_description": "สารสกัดจากกิ่งและใบมีสารที่ช่วยยับยั้งการเจริญเติบโตของเชื้อแบคทีเรีย Staphylococcus aureus และ Bacillus subtilis ซึ่งเป็นสาเหตุที่ทำให้เกิดหนอง"
+                },
+                {
+                    "property_name": "แก้ตัวบวม",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/7408/7408792.png",
+                    "property_description": " ใบนำมาใช้ต้มอาบช่วยแก้ตัวบวมได้"
+                }
+            ]
+ 
+        },
+        {
+            "herb_id": "9",
+            "herb_th_name": "สะระแหน่",
+            "herb_en_name": "Peppermint",
+            "herb_image": "https://anndagarden.com/wp-content/uploads/2023/05/mint-leave.jpg",
+            "herb_description": "เป็นพืชสมุนไพรตามธรรมชาติ ที่มีการนำใบ และน้ำมันมาใช้ประโยชน์ต่อสุขภาพมา อีกทั้งยังใช้เป็นยาพื้นบ้าน สำหรับรักษาโรคและอาการต่าง ๆ รวมถึงใช้เป็นสารแต่งกลิ่นในสบู่ และเครื่องสำอางอีกด้วย",
+            "herb_scientific_name": "Melissa officinalis",
+            "herb_family": " Lamiaceae",
+            "herb_characteristics": [
+                {
+                    "character_name": "ใบ",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
+                    "character_description": "ใบมีสีเขียว รูปทรงรี  ผิวใบย่นเป็นลูกคลื่น ขอบใบหยัก ปลายใบมนหรือแหลม"
+                },
+                {
+                    "character_name": "ดอก",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/3386/3386351.png",
+                    "character_description": "ออกเป็นช่อ เหนือซอกใบบริเวณปลายยอด แต่ละช่อมีดอกจำนวนมาก ดอกมีสีชมพูอมม่วง"
+                },
+                {
+                    "character_name": "ผล",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1410/1410689.png",
+                    "character_description": "สีดำ ขนาดเล็กรูปกระสวย เปลือกผลเกลี้ยงมัน "
+                }
+            ],
+            "properties": [
+                {
+                    "property_name": "บรรเทาอาการหวัด คัดจมูก",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/2599/2599508.png",
+                    "property_description": "น้ำมันหอมระเหย ที่มีอยู่ในสะระแหน่ ช่วยลดอาการอักเสบในเยื่อบุจมูก บรรเทาอาการหลอดลมหดตัว ช่วยบรรเทาอาการคัดจมูกจากหวัด และอาการหอบหืดได้"
+                },
+                {
+                    "property_name": "แก้คลื่นไส้",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/7959/7959792.png",
+                    "property_description": "กลิ่นหอมจากสารเมนทอลในใบสะระแหน่ทำให้รู้สึกสดชื่น บรรเทาอาการวิงเวียนศีรษะ และอาการคลื่นไส้ได้ โดยใช้ใบสด 1 กำมือ โขลกจนละเอียดแล้วคั้นเอาแต่น้ำ มาผสมกับน้ำอุ่น 1 แก้วกาแฟ จิบอุ่น ๆ แก้อาการคลื่นไส้ วิงเวียน"
+                },
+                {
+                    "property_name": "ช่วยย่อยอาหาร",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/10154/10154432.png",
+                    "property_description": "สะระแหน่มีฤทธิ์คลายกล้ามเนื้อกระเพาะอาหาร และมีส่วนกระตุ้นการไหลเวียนของน้ำดีในร่างกาย ช่วยย่อยอาหารได้ดีขึ้น โดยเฉพาะอาหารประเภทไขมัน"
+                }
+            ]
+ 
+        },
+        {
+            "herb_id": "10",
+            "herb_th_name": "ย่านาง",
+            "herb_en_name": "Bai yanang",
+            "herb_image": "https://cdn.baania.com/b20/article/source/1593769110486-%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%80%E0%B8%81%E0%B9%87%E0%B8%9A%E0%B9%80%E0%B8%81%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A7.jpg",
+            "herb_description": "เป็นสมุนไพรไทยที่ถูกนำมาใช้ตั้งแต่โบราณในการรักษาโรคต่าง ๆ รวมถึงการนำมาทำอาหารหลากหลายชนิด",
+            "herb_scientific_name": "Tiliacora triandra",
+            "herb_family": "Menispermaceae",
+            "herb_characteristics": [
+                {
+                    "character_name": "ใบ",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
+                    "character_description": "ใบเป็นใบเดี่ยว ออกติดกับลำต้นแบบสลับ รูปร่างใบคล้ายรูปไข่หรือรูปไข่ขอบขนานปลายใบเรียว ฐานใบมน"
+                },
+                {
+                    "character_name": "ดอก",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/3386/3386351.png",
+                    "character_description": " ออกตามซอกโคนก้านใบ ช่อหนึ่งมีดอกขนาดเล็กสีเหลือง 3 - 5 ดอก ดอกแยกเพศอยู่คนละต้นไม่มีกลีบดอก"
+                },
+                {
+                    "character_name": "ผล",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1410/1410689.png",
+                    "character_description": "รูปร่างกลมรีขนาดเล็ก สีเขียว เมื่อแก่กลายเป็นสีเหลืองอมแดงและกลายเป็นสีดำ"
+                }
+            ],
+            "properties": [
+                {
+                    "property_name": "มีฤทธิ์ต่อต้านสารอนุมูลอิสระ",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/4300/4300793.png",
+                    "property_description": "มีสารเบต้าแคโรทีนและวิตามินซีสูง ซึ่งเป็นสารต้านอนุมูลอิสระที่ดีต่อร่างกาย"
+                },
+                {
+                    "property_name": "ใช้ต้านเชื้อมาลาเรียได้",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/2854/2854444.png",
+                    "property_description": "นำ รากต้นย่านาง มาทำสารสกัด ทั้งแบบส่วนที่ละลายน้ำ และส่วนที่ไม่ละลายน้ำ ซึ่งต่างมี alkaloid เป็นองค์ประกอบ มีฤทธิ์เพิ่มการยับยั้งเชื้อมาลาเรีย"
+                },
+                {
+                    "property_name": "ถอนพิษ แก้ไข้ได้",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/3781/3781946.png",
+                    "property_description": "ทั้งรากและใบย่านางถือเป็นยาเย็น จึงมีความโดดเด่นด้านการถอนพิษและแก้ไข้"
+                }
+            ]
+ 
+        }
+            
+    ]
+}

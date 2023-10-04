@@ -19,3 +19,4 @@ web-build/
 # env
 .env
 api_env
+.vercel

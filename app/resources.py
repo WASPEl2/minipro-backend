@@ -124,7 +124,6 @@ class getHerbAnaly(Resource):
         try:
             # Read image data
             image_data = image.read()
-            print(image_data)
             # Create an image object from the decoded data
             image_object = Image.open(io.BytesIO(image_data))
 

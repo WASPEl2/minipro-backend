@@ -105,7 +105,7 @@ from PIL import Image
 import io
 
 
-@ns.route("/herbs/predict/")
+@ns.route("/herbs/predict")
 class getHerbAnaly(Resource):
     def post(self):
         # Check if an image file is part of the request
@@ -122,11 +122,9 @@ class getHerbAnaly(Resource):
             return {"error": "Invalid file format"}, 400
 
         try:
+            # Read image data
             image_data = image.read()
-            image_data = image_data.decode("utf-8")
-            data_prefix, base64_data = image_data.split(",", 1)
-            image_data = base64.b64decode(base64_data)
-
+            print(image_data)
             # Create an image object from the decoded data
             image_object = Image.open(io.BytesIO(image_data))
 
@@ -168,7 +166,8 @@ class getHerbAnaly(Resource):
 
             # Create a ranking dictionary
             ranking = [
-                {"label": label, "probability": prob} for label, prob in top_5_ranking
+                {"label": class_labels[label], "probability": prob}
+                for label, prob in top_5_ranking
             ]
 
             return {"ranking": ranking}

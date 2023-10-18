@@ -1,6 +1,55 @@
 {
     "data": [
         {
+            "herb_id": "1",
+            "herb_th_name": "ชะพลู",
+            "herb_en_name": "Eilerd",
+            "herb_image": "https://f.ptcdn.info/153/077/000/rb9f1y3sw6R9j39JxNuO-o.jpg",
+            "herb_description": "ชะพลูเป็นพันธุ์ไม้ที่ชอบพื้นที่ลุ่ม มีความชื้น ขยายพันธุ์ด้วยวิธีการปักชำ โดยการเลือกกิ่งที่มีใบอ่อนและใบแก่ เด็ดใบแก่ออกและนำไปปักชำได้",
+            "herb_scientific_name": "Piper sarmentosum Roxb.",
+            "herb_family": "Piperaceae",
+            "herb_characteristics": [
+                {
+                    "character_name": "ใบ",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
+                    "character_description": "เป็นใบเดี่ยว ออกเรียงสลับ แผ่นใบบาง ผิวใบเรียบสีเขียวเข้มเป็นมัน ใบรูปหัวใจกว้าง 5-10 เซนติเมตร ยาว 7-15 เซนติเมตร ปลายใบแหลม โคนใบเว้า"
+                },
+                {
+                    "character_name": "ดอก",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/3386/3386351.png",
+                    "character_description": "ออกเป็นช่อที่ซอกใบรูปทรงกระบอก ดอกเล็กสีขาวอัดแน่นอยู่บนแกนช่อดอก ดอกแยกเพศ"
+                },
+                {
+                    "character_name": "ผล",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/601/601984.png",
+                    "character_description": "เป็นผลสด กลม อัดแน่นอยู่บนแกน"
+                }
+            ],
+            "properties": [
+                {
+                    "property_name": "ปรับสมดุลธาตุภายในร่างกาย",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/10873/10873875.png",
+                    "property_description": "ใบชะพลูมีฤทธิ์ร้อน ช่วยปรับสมดุลธาตุภายในร่างกาย ช่วยกระตุ้นการไหลเวียนของเลือดลมทำให้ร่างกายสดชื่นกระปรี้กระเปร่ามากขึ้น"
+                },
+                {
+                    "property_name": "ช่วยต้านสารอนุมูลอิสระ",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/4300/4300793.png",
+                    "property_description": "ใบชะพลูมีสารเบต้าแคโรทีนสูง จึงช่วยต้านสารอนุมูลอิสระ ลดอาการอักเสบและชะลอความเสื่อมสภาพของเซลล์ในร่างกาย ทำให้เซลล์อ่อนเยาว์ สุขภาพแข็งมากขึ้น"
+                },
+                {
+                    "property_name": "ช่วยบำรุงสายตา",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/1078/1078327.png",
+                    "property_description": "ใบชะพลูช่วยบำรุงสายตา ช่วยป้องกันประสาทตาเสื่อม ช่วยป้องกันโรคตาบอดกลางคืน"
+                },
+                {
+                    "property_name": "กระตุ้นการทำงานของระบบย่อยอาหารและการขับถ่าย",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/10154/10154432.png",
+                    "property_description": "ใบชะพลูให้เส้นใยอาหารสูงมาก จึงมีส่วนช่วยลดอาการแน่นท้อง อึดอัดท้อง ไม่สบายท้อง และยังมีส่วนช่วยกระตุ้นการขับถ่าย ลดอาการท้องผูก"
+                }
+            ]
+ 
+        },
+        {
             "herb_id": "3",
             "herb_th_name": "โหระพา",
             "herb_en_name": "sweet Basil",
@@ -50,55 +99,7 @@
             ]
  
         },
-        {
-            "herb_id": "1",
-            "herb_th_name": "ชะพลู",
-            "herb_en_name": "Eilerd",
-            "herb_image": "https://f.ptcdn.info/153/077/000/rb9f1y3sw6R9j39JxNuO-o.jpg",
-            "herb_description": "ชะพลูเป็นพันธุ์ไม้ที่ชอบพื้นที่ลุ่ม มีความชื้น ขยายพันธุ์ด้วยวิธีการปักชำ โดยการเลือกกิ่งที่มีใบอ่อนและใบแก่ เด็ดใบแก่ออกและนำไปปักชำได้",
-            "herb_scientific_name": "Piper sarmentosum Roxb.",
-            "herb_family": "Piperaceae",
-            "herb_characteristics": [
-                {
-                    "character_name": "ใบ",
-                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
-                    "character_description": "เป็นใบเดี่ยว ออกเรียงสลับ แผ่นใบบาง ผิวใบเรียบสีเขียวเข้มเป็นมัน ใบรูปหัวใจกว้าง 5-10 เซนติเมตร ยาว 7-15 เซนติเมตร ปลายใบแหลม โคนใบเว้า"
-                },
-                {
-                    "character_name": "ดอก",
-                    "character_icon": "https://cdn-icons-png.flaticon.com/128/3386/3386351.png",
-                    "character_description": "ออกเป็นช่อที่ซอกใบรูปทรงกระบอก ดอกเล็กสีขาวอัดแน่นอยู่บนแกนช่อดอก ดอกแยกเพศ"
-                },
-                {
-                    "character_name": "ผล",
-                    "character_icon": "https://cdn-icons-png.flaticon.com/128/601/601984.png",
-                    "character_description": "เป็นผลสด กลม อัดแน่นอยู่บนแกน"
-                }
-            ],
-            "properties": [
-                {
-                    "property_name": "ปรับสมดุลธาตุภายในร่างกาย",
-                    "property_icon": "https://cdn-icons-png.flaticon.com/128/10873/10873875.png",
-                    "property_description": "ใบชะพลูมีฤทธิ์ร้อน ช่วยปรับสมดุลธาตุภายในร่างกาย ช่วยกระตุ้นการไหลเวียนของเลือดลมทำให้ร่างกายสดชื่นกระปรี้กระเปร่ามากขึ้น"
-                },
-                {
-                    "property_name": "ช่วยต้านสารอนุมูลอิสระ",
-                    "property_icon": "https://cdn-icons-png.flaticon.com/128/4300/4300793.png",
-                    "property_description": "ใบชะพลูมีสารเบต้าแคโรทีนสูง จึงช่วยต้านสารอนุมูลอิสระ ลดอาการอักเสบและชะลอความเสื่อมสภาพของเซลล์ในร่างกาย ทำให้เซลล์อ่อนเยาว์ สุขภาพแข็งมากขึ้น"
-                },
-                {
-                    "property_name": "ช่วยบำรุงสายตา",
-                    "property_icon": "https://cdn-icons-png.flaticon.com/128/1078/1078327.png",
-                    "property_description": "ใบชะพลูช่วยบำรุงสายตา ช่วยป้องกันประสาทตาเสื่อม ช่วยป้องกันโรคตาบอดกลางคืน"
-                },
-                {
-                    "property_name": "กระตุ้นการทำงานของระบบย่อยอาหารและการขับถ่าย",
-                    "property_icon": "https://cdn-icons-png.flaticon.com/128/10154/10154432.png",
-                    "property_description": "ใบชะพลูให้เส้นใยอาหารสูงมาก จึงมีส่วนช่วยลดอาการแน่นท้อง อึดอัดท้อง ไม่สบายท้อง และยังมีส่วนช่วยกระตุ้นการขับถ่าย ลดอาการท้องผูก"
-                }
-            ]
- 
-        },
+        
         {
             "herb_id": "5",
             "herb_th_name": "มะนาว",

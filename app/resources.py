@@ -50,17 +50,6 @@ class allHerbs(Resource):
             return {"error": "JSON file not found"}, 404
 
 
-@ns.route("/herbs/history")
-class allHerbs(Resource):
-    def get(self):
-        try:
-            with open(history_json, "r", encoding="utf-8") as json_file:
-                data = json.load(json_file)
-                return jsonify(data)
-        except FileNotFoundError:
-            return {"error": "JSON file not found"}, 404
-
-
 @ns.route("/herbs/search/<string:name>")
 class getHerbByName(Resource):
     def get(self, name):
@@ -143,31 +132,36 @@ class getHerbAnaly(Resource):
 
             # Get class labels and probabilities
             class_labels = {
-                1: "eilerd",
-                2: "fahthalinejol",
-                3: "horapa",
-                4: "krapao",
-                5: "lemon",
-                6: "magrud",
-                7: "plu",
-                8: "sabtiger",
-                9: "saranae",
-                10: "yanang",
+                1: "ชะพลู",
+                2: "ฟ้าทะลายโจร",
+                3: "โหระพา",
+                4: "กะเพรา",
+                5: "มะนาว",
+                6: "มะกรูด",
+                7: "พลู",
+                8: "สาบเสือ",
+                9: "สะระแหน่",
+                10: "ย่านาง  ",
             }
 
-            # Convert predictions to class labels with probabilities
+            # Convert predictions to class labels with probabilities and numerical labels
             class_probs = [
-                (i + 1, float(prob)) for i, prob in enumerate(predictions[0])
+                {
+                    "herb_id": i + 1,
+                    "label": class_labels[i + 1],
+                    "probability": float(prob),
+                }
+                for i, prob in enumerate(predictions[0])
             ]
-            sorted_class_probs = sorted(class_probs, key=lambda x: x[1], reverse=True)
+            sorted_class_probs = sorted(
+                class_probs, key=lambda x: x["probability"], reverse=True
+            )
 
-            top_5_ranking = sorted_class_probs[:5]
+            top_4_ranking = sorted_class_probs[:4]
+            print(top_4_ranking)
 
             # Create a ranking dictionary
-            ranking = [
-                {"label": class_labels[label], "probability": prob}
-                for label, prob in top_5_ranking
-            ]
+            ranking = top_4_ranking
 
             return {"ranking": ranking}
         except Exception as e:
@@ -182,8 +176,6 @@ class getHerbImage(Resource):
             current_directory = os.path.dirname(__file__)
             images_directory = os.path.join(current_directory, "assets", "images")
             image_path = os.path.join(images_directory, image_name)
-
-            print(image_path)
             if os.path.exists(image_path):
                 return send_file(image_path)
             elif not os.path.exists(images_directory):

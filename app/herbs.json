@@ -1,13 +1,62 @@
 {
     "data": [
         {
+            "herb_id": "3",
+            "herb_th_name": "โหระพา",
+            "herb_en_name": "sweet Basil",
+            "herb_image": "https://img.kapook.com/u/2019/sireeporn/Health-1/P2.jpg",
+            "herb_description": "มีถิ่นกำเนิดในทวีปเอเชียและแอฟริกาเป็นพืชพื้นเมืองของอินเดียแต่แพร่หลายในเอเชียและตะวันตก โหระพาเป็นพืชสมุนไพรที่มีกลิ่นหอมนิยมอย่างมากในการนำมาประกอบอาหารและแต่งกลิ่นของรสชาติให้น่ารับประทานยิ่งขึ้น",
+            "herb_scientific_name": "Ocimum basilicum Linn.",
+            "herb_family": "Labiatae",
+            "caution":"----------------------input here------------------------------------",
+            "herb_characteristics": [
+                {
+                    "character_name": "ลำต้น",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/785/785202.png",
+                    "character_description": "มีลักษณะเป็นสี่เหลี่ยม ลำต้นเดี่ยวโคนต้นสูง มีสีม่วงแดง มีกิ่งอ่อนสีม่วงแดง"
+                },
+                {
+                    "character_name": "ใบ",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
+                    "character_description": "ใบมีลักษณะเล็กยาวรี โคนมนปลายแหลม มีสีเขียว ใบเป็นใบเดี่ยวออกตรงข้าม ขอบเป็นฟันเลื่อยห่างๆ มีก้านใบรองรับ ใบมีน้ำมันหอมระเหย methyl chavicol และ linalool"
+                },
+                {
+                    "character_name": "ราก",
+                    "character_icon": "https://cdn-icons-png.flaticon.com/128/100/100663.png",
+                    "character_description": "มีระบบรากแก้ว รากมีลักษณะกลมเล็กๆ  มีรากฝอยๆ จะมีสีน้ำตาล มีกลิ่นหอมเฉพาะตัว"
+                }
+            ],
+            "properties": [
+                {
+                    "property_name": "ป้องกันโรคหัวใจได้",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/1077/1077035.png",
+                    "property_description": "โหระพามีเบต้าแคโรทีนสูง จึงสามารถช่วยป้องกันโรคหัวใจได้"
+                },
+                {
+                    "property_name": "ช่วยให้เจริญอาหาร",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/562/562678.png",
+                    "property_description": "กลิ่นหอมจากน้ำมันหอมระเหยที่มีอยู่ในใบโหระพามีสรรพคุณช่วยขับลม ทำให้เจริญอาหาร"
+                },
+                {
+                    "property_name": "แก้ปวดหัว แก้หวัด",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/2599/2599508.png",
+                    "property_description": "น้ำมันหอมระเหยจากใบโหระพาช่วยแก้อาการปวดหัว และแก้หวัดได้ "
+                },
+                {
+                    "property_name": "แก้บิด ช่วยระบาย",
+                    "property_icon": "https://cdn-icons-png.flaticon.com/128/3000/3000118.png",
+                    "property_description": "เมล็ดของโหระพามีเมือกที่ช่วยหล่อลื่นลำไส้ช่วยเพิ่มปริมาณกากใยอาหารทำให้ขับถ่ายได้ง่ายขึ้น โดยใช้เมล็ดโหระพาแช่น้ำ กินแก้ปวดท้องบิด ช่วยระบาย"
+                }
+            ]
+ 
+        },
+        {
             "herb_id": "1",
             "herb_th_name": "ชะพลู",
             "herb_en_name": "Eilerd",
             "herb_image": "https://f.ptcdn.info/153/077/000/rb9f1y3sw6R9j39JxNuO-o.jpg",
             "herb_description": "ชะพลูเป็นพันธุ์ไม้ที่ชอบพื้นที่ลุ่ม มีความชื้น ขยายพันธุ์ด้วยวิธีการปักชำ โดยการเลือกกิ่งที่มีใบอ่อนและใบแก่ เด็ดใบแก่ออกและนำไปปักชำได้",
             "herb_scientific_name": "Piper sarmentosum Roxb.",
-            "caution":"ไม่ควรรับประทานใบชะพลูมากเกินไป เพราะจะทำให้เกิดอาการเวียนศีรษะและทำให้มีการสะสมของสารออกซาเลทในร่างกายสูง ซึ่งอาจก่อให้เกิดโรคนิ่วในไตได้",
             "herb_family": "Piperaceae",
             "herb_characteristics": [
                 {
@@ -50,57 +99,6 @@
             ]
  
         },
-        {
-            "herb_id": "3",
-            "herb_th_name": "โหระพา",
-            "herb_en_name": "sweet Basil",
-            "herb_image": "https://img.kapook.com/u/2019/sireeporn/Health-1/P2.jpg",
-            "herb_description": "มีถิ่นกำเนิดในทวีปเอเชียและแอฟริกาเป็นพืชพื้นเมืองของอินเดียแต่แพร่หลายในเอเชียและตะวันตก โหระพาเป็นพืชสมุนไพรที่มีกลิ่นหอมนิยมอย่างมากในการนำมาประกอบอาหารและแต่งกลิ่นของรสชาติให้น่ารับประทานยิ่งขึ้น",
-            "herb_scientific_name": "Ocimum basilicum Linn.",
-            "herb_family": "Labiatae",
-            "caution":"สำหรับสตรีมีครรภ์และเด็กที่มีอายุต่ำกว่า 2 ปี รวมถึงผู้สูงอายุ ควรหลีกเลี่ยงน้ำมันหอมระเหยจากโหระพาเพราะทำให้เกิดอาการแพ้ง่าย",
-            "herb_characteristics": [
-                {
-                    "character_name": "ลำต้น",
-                    "character_icon": "https://cdn-icons-png.flaticon.com/128/785/785202.png",
-                    "character_description": "มีลักษณะเป็นสี่เหลี่ยม ลำต้นเดี่ยวโคนต้นสูง มีสีม่วงแดง มีกิ่งอ่อนสีม่วงแดง"
-                },
-                {
-                    "character_name": "ใบ",
-                    "character_icon": "https://cdn-icons-png.flaticon.com/128/1490/1490749.png",
-                    "character_description": "ใบมีลักษณะเล็กยาวรี โคนมนปลายแหลม มีสีเขียว ใบเป็นใบเดี่ยวออกตรงข้าม ขอบเป็นฟันเลื่อยห่างๆ มีก้านใบรองรับ ใบมีน้ำมันหอมระเหย methyl chavicol และ linalool"
-                },
-                {
-                    "character_name": "ราก",
-                    "character_icon": "https://cdn-icons-png.flaticon.com/128/100/100663.png",
-                    "character_description": "มีระบบรากแก้ว รากมีลักษณะกลมเล็กๆ  มีรากฝอยๆ จะมีสีน้ำตาล มีกลิ่นหอมเฉพาะตัว"
-                }
-            ],
-            "properties": [
-                {
-                    "property_name": "ป้องกันโรคหัวใจได้",
-                    "property_icon": "https://cdn-icons-png.flaticon.com/128/1077/1077035.png",
-                    "property_description": "โหระพามีเบต้าแคโรทีนสูง จึงสามารถช่วยป้องกันโรคหัวใจได้"
-                },
-                {
-                    "property_name": "ช่วยให้เจริญอาหาร",
-                    "property_icon": "https://cdn-icons-png.flaticon.com/128/562/562678.png",
-                    "property_description": "กลิ่นหอมจากน้ำมันหอมระเหยที่มีอยู่ในใบโหระพามีสรรพคุณช่วยขับลม ทำให้เจริญอาหาร"
-                },
-                {
-                    "property_name": "แก้ปวดหัว แก้หวัด",
-                    "property_icon": "https://cdn-icons-png.flaticon.com/128/2599/2599508.png",
-                    "property_description": "น้ำมันหอมระเหยจากใบโหระพาช่วยแก้อาการปวดหัว และแก้หวัดได้ "
-                },
-                {
-                    "property_name": "แก้บิด ช่วยระบาย",
-                    "property_icon": "https://cdn-icons-png.flaticon.com/128/3000/3000118.png",
-                    "property_description": "เมล็ดของโหระพามีเมือกที่ช่วยหล่อลื่นลำไส้ช่วยเพิ่มปริมาณกากใยอาหารทำให้ขับถ่ายได้ง่ายขึ้น โดยใช้เมล็ดโหระพาแช่น้ำ กินแก้ปวดท้องบิด ช่วยระบาย"
-                }
-            ]
- 
-        },
-        
         {
             "herb_id": "5",
             "herb_th_name": "มะนาว",

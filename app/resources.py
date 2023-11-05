@@ -20,17 +20,6 @@ class Register(Resource):
         # Connect to the MySQL database
         connection = db_connection.connect_mysql()
 
-        # Perform a simple query
-        cursor = connection.cursor()
-        cursor.execute("SELECT VERSION()")
-        data = cursor.fetchone()
-        version = data[0]
-
-        # Close the database connection
-        connection.close()
-
-        return f"MySQL version is {version}"
-
 
 if __name__ == "__main__":
     app.run(debug=True)

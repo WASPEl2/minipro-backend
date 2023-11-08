@@ -12,8 +12,8 @@ class MysqlConnection(object):
     def connect_mysql(self):
         return pymysql.connect(
             host=self.host,
-            port=int(self.port),  
+            port=int(self.port),
             user=self.user,
-            password=self.passwd,  
+            password=self.passwd,
             db=self.db,
         )

@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_file, jsonify, request, json
 from flask_restx import reqparse, Api, Resource, Namespace
 from flask_cors import CORS
 import pymysql
@@ -12,14 +12,48 @@ ns = Namespace("SmartCanteen")
 ALLOWED_EXTENSIONS = {"png", "jpg"}
 
 
-@ns.route("/register")
-class Register(Resource):
-    def post(self):
-        # Create an instance of the MysqlConnection class
-        db_connection = MysqlConnection()
 
-        # Connect to the MySQL database
-        connection = db_connection.connect_mysql()
+
+
+@ns.route("/store/login")
+class Login(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+
+            if "username" in data and "password" in data:
+                username = data.get("username")
+                password = data.get("password")
+
+                db_connection = MysqlConnection()
+                connection = db_connection.connect_mysql()
+                cursor = connection.cursor()
+
+                query = "SELECT store_id FROM store WHERE (store_name = %s OR store_number = %s) AND store_pwd = %s"
+                cursor.execute(query, (username, username, password))
+                result = cursor.fetchone()
+
+                cursor.close()
+                connection.close()
+
+                if result:
+                    return {
+                        "message": "Login successful",
+                        "storid": result[0],
+                    }, 200
+                else:
+                    # Username not found in the database
+                    return {"message": "Username not found or incorrect password"}, 404
+
+            return {
+                "message": "Invalid request data. 'username' and 'password' are required."
+            }, 400
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
 
 
 @ns.route("/store")

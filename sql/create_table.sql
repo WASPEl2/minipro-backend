@@ -2,6 +2,8 @@ DROP TABLE menu;
 DROP TABLE addon;
 DROP TABLE store;
 DROP TABLE customer;
+DROP TABLE openTime;
+
 
 CREATE TABLE customer
 (
@@ -25,6 +27,16 @@ CREATE TABLE store
     rate_show INT DEFAULT 0,
     rate_count INT DEFAULT 0,
     PRIMARY KEY (store_id)
+);
+
+CREATE TABLE openTime
+(
+    store_id INT NOT NULL ,
+    day VARCHAR(20) NOT NULL,
+    open_time TIME NOT NULL,
+    close_time TIME NOT NULL,
+    PRIMARY KEY (store_id, day),
+    FOREIGN KEY (store_id) REFERENCES store(store_id)
 );
 
 

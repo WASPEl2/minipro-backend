@@ -1,8 +1,11 @@
 from flask import Flask, request
 from flask_restx import Api, Resource, fields
+from datetime import datetime
 from flask_cors import CORS
 from PIL import Image
+import base64
 import io
+
 from database import MysqlConnection
 
 app = Flask(__name__)
@@ -17,6 +20,40 @@ ALLOWED_EXTENSIONS = {"png", "jpg"}
 class Home(Resource):
     def get(self):
         return {"message": "Welcome to the SmartCanteen API!"}, 200
+
+
+@ns.route("/store")
+class storeData(Resource):
+    def get(self):
+        try:
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            query = (
+                "SELECT store_name, store_username, store_type, store_locate FROM store"
+            )
+            cursor.execute(query)
+            store_data = cursor.fetchall()
+            cursor.close()
+            connection.close()
+
+            store_list = []
+            for row in store_data:
+                store_dict = {
+                    "store_name": row[0],
+                    "store_username": row[1],
+                    "store_type": row[2],
+                    "store_locate": row[3],
+                }
+                store_list.append(store_dict)
+
+            return store_list, 200
+        except Exception as e:
+            return {
+                "message": "An error occurred while retrieving data.",
+                "error": str(e),
+            }, 500
 
 
 @ns.route("/store/register")
@@ -52,15 +89,25 @@ class Register(Resource):
 
             if "qrcodeImage" in request.files:
                 qrcode_image = request.files["qrcodeImage"].read()
-                qrcode_image = Image.open(io.BytesIO(qrcode_image))
 
+                # Check if the image is in PNG format
+                if qrcode_image.startswith(b"\x89PNG\r\n\x1a\n"):
+                    # Convert PNG to JPEG
+                    image = Image.open(io.BytesIO(qrcode_image))
+                    buffer = io.BytesIO()
+                    image.convert("RGB").save(buffer, format="JPEG")
+                    qrcode_image = buffer.getvalue()
             else:
                 qrcode_image = None
 
             if "storeImage" in request.files:
                 store_image = request.files["storeImage"].read()
-                store_image = Image.open(io.BytesIO(store_image))
 
+                if store_image.startswith(b"\x89PNG\r\n\x1a\n"):
+                    image = Image.open(io.BytesIO(store_image))
+                    buffer = io.BytesIO()
+                    image.convert("RGB").save(buffer, format="JPEG")
+                    store_image = buffer.getvalue()
             else:
                 store_image = None
 
@@ -83,7 +130,7 @@ class Register(Resource):
             cursor.close()
             connection.close()
 
-            return {"message": "Store registration successful"}, 200
+            return {"message": "store registration successful"}, 200
 
         except Exception as e:
             return {
@@ -133,37 +180,46 @@ class Login(Resource):
             }, 500
 
 
-@ns.route("/store")
-class StoreData(Resource):
+@ns.route("/store/dashboard")
+class storeDetail(Resource):
     def get(self):
         try:
+            id = request.args.get("id")
+            if id is None:
+                return {"message": "ID parameter is missing in the request"}, 400
+
             db_connection = MysqlConnection()
             connection = db_connection.connect_mysql()
             cursor = connection.cursor()
 
-            query = "SELECT * FROM store"
-            cursor.execute(query)
-            store_data = cursor.fetchall()
+            query = "SELECT store_name, store_locate, store_image, open_time, close_time FROM store LEFT JOIN openTime ON store.store_id = openTime.store_id WHERE store.store_id = %s"
+            cursor.execute(query, (id,))
+            store_data = cursor.fetchone()
+
             cursor.close()
             connection.close()
 
-            store_list = []
-            for row in store_data:
-                store_dict = {
-                    "store_name": row[0],
-                    "store_owner": row[1],
-                    "store_number": row[2],
-                    "store_pwd": row[3],
-                    "store_type": row[4],
-                    "store_locate": row[5],
-                }
-                store_list.append(store_dict)
+            if store_data:
+                # image_data = io.BytesIO(store_data[2])
+                # image = Image.open(image_data)
+                # image.show()
+                store_data = list(store_data)
+                store_data[2] = base64.b64encode(store_data[2]).decode("utf-8")
 
-            # Return the retrieved data as JSON response
-            return store_list, 200
+                store_detail = {
+                    "store_name": store_data[0],
+                    "store_locate": store_data[1],
+                    "store_image": store_data[2],
+                    "open_time": store_data[3],
+                    "close_time": store_data[4],
+                }
+                return {"data": store_detail}, 200
+            else:
+                return {"message": f"Store with ID {id} not found"}, 404
+
         except Exception as e:
             return {
-                "message": "An error occurred while retrieving data.",
+                "message": "An error occurred while processing the request.",
                 "error": str(e),
             }, 500
 

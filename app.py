@@ -4,6 +4,7 @@ from datetime import datetime
 from flask_cors import CORS
 from PIL import Image
 import base64
+import json
 import io
 
 from database import MysqlConnection
@@ -300,7 +301,7 @@ class menutype(Resource):
 
 
 @ns.route("/store/menutype/<int:menuTypeid>")
-class UpdateMenuType(Resource):
+class ManageMenuType(Resource):
     def put(self, menuTypeid):
         try:
             data = request.get_json()
@@ -359,6 +360,193 @@ class UpdateMenuType(Resource):
         except Exception as e:
             return {
                 "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+
+@ns.route("/store/addon")
+class Addon(Resource):
+    def get(self):
+        try:
+            storeid = request.args.get("storeid")
+            if not storeid:
+                return {"message": "Missing 'storeid' parameter"}, 400
+
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            query = "SELECT addon_id, addon_name, addon_priority, areRequir, choices FROM addon WHERE store_id = %s"
+            cursor.execute(query, (storeid,))
+            addon_data = cursor.fetchall()
+
+            cursor.close()
+            connection.close()
+
+            addon_list = []
+            for row in addon_data:
+                addon_dict = {
+                    "addon_id": row[0],
+                    "addon_name": row[1],
+                    "addon_priority": row[2],
+                    "areRequir": row[3],
+                    "choices": json.loads(row[4]) if row[4] else [],
+                }
+                addon_list.append(addon_dict)
+
+            return {"data": addon_list}, 200
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while retrieving addon data.",
+                "error": str(e),
+            }, 500
+
+    def post(self):
+        try:
+            data = request.get_json()
+            if (
+                "storeid" in data
+                and "addonName" in data
+                and "addonRequir" in data
+                and "choices" in data
+            ):
+                storeid = data.get("storeid")
+                addonName = data.get("addonName")
+                addonRequir = data.get("addonRequir")
+                choices = data.get("choices")
+                choices_json = json.dumps(choices)
+
+                db_connection = MysqlConnection()
+                connection = db_connection.connect_mysql()
+                cursor = connection.cursor()
+
+                query = "INSERT INTO addon (addon_name, store_id, areRequir, choices) VALUES (%s, %s, %s, %s)"
+                cursor.execute(query, (addonName, storeid, addonRequir, choices_json))
+                connection.commit()
+
+                cursor.close()
+                connection.close()
+
+                return {"message": "Addon added successfully"}, 201
+
+            return {
+                "message": "Invalid request data. 'storeid', 'addonCatogolyName', 'addonRequir', and 'choices' are required."
+            }, 400
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+
+@ns.route("/store/addon/<int:addon_id>")
+class UpdateAddon(Resource):
+    def put(self, addon_id):
+        try:
+            data = request.get_json()
+            if "storeid" not in data:
+                return {"message": "Missing 'storeid' in request data"}, 400
+
+            storeid = data.get("storeid")
+            addonName = data.get("addonName")
+            addonRequir = data.get("addonRequir")
+            choices = data.get("choices")
+            choices_json = json.dumps(choices)
+
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            query = "UPDATE addon SET addon_name = %s, areRequir = %s, choices = %s WHERE addon_id = %s AND store_id = %s"
+            cursor.execute(
+                query, (addonName, addonRequir, choices_json, addon_id, storeid)
+            )
+            connection.commit()
+
+            cursor.close()
+            connection.close()
+
+            return {"message": "Addon updated successfully"}, 200
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+    def delete(self, addon_id):
+        try:
+            print("start")
+            data = request.get_json()
+            print(data)
+            if "storeid" not in data:
+                return {"message": "Missing 'storeid' in request data"}, 400
+
+            storeid = data.get("storeid")
+            print("store", storeid)
+
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            query = "DELETE FROM addon WHERE addon_id = %s AND store_id = %s"
+            cursor.execute(query, (addon_id, storeid))
+            connection.commit()
+
+            cursor.close()
+            connection.close()
+
+            return {"message": "Addon deleted successfully"}, 200
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+
+@ns.route("/store/addon/choice/<int:addon_id>")
+class UpdateAddonChoice(Resource):
+    def put(self, addon_id):
+        try:
+            data = request.get_json()
+            choice_name = data.get("name")
+            are_sale = data.get("areSale")
+
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            # Check if the choice exists in the addon's choices JSON column
+            query = "SELECT addon_id, choices FROM addon WHERE addon_id = %s"
+            cursor.execute(query, (addon_id,))
+            result = cursor.fetchone()
+
+            if result:
+                addon_id, choices_json = result
+                choices = json.loads(choices_json) if choices_json else []
+
+                for choice in choices:
+                    if choice.get("name") == choice_name:
+                        # Update the "areSale" property for the matching choice
+                        choice["areSale"] = are_sale
+
+                # Update the choices back to the database
+                updated_choices_json = json.dumps(choices)
+                update_query = "UPDATE addon SET choices = %s WHERE addon_id = %s"
+                cursor.execute(update_query, (updated_choices_json, addon_id))
+                connection.commit()
+
+            cursor.close()
+            connection.close()
+
+            return {"message": "Choice updated successfully"}, 200
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while updating the choice.",
                 "error": str(e),
             }, 500
 

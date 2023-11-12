@@ -1,9 +1,9 @@
 DROP TABLE menu;
+DROP TABLE menu_type;
 DROP TABLE addon;
+DROP TABLE openTime;
 DROP TABLE store;
 DROP TABLE customer;
-DROP TABLE openTime;
-
 
 CREATE TABLE customer
 (
@@ -39,14 +39,34 @@ CREATE TABLE openTime
     FOREIGN KEY (store_id) REFERENCES store(store_id)
 );
 
+CREATE TABLE addon_category
+(
+    addon_category_id INT NOT NULL AUTO_INCREMENT,
+    addon_category_name VARCHAR(60) NOT NULL,
+    store_id INT NOT NULL,
+    areRequir BOOLEAN NOT NULL,
+    areNulti BOOLEAN NOT NULL,
+    PRIMARY KEY (addon_category_id),
+    FOREIGN KEY (store_id) REFERENCES store(store_id)
+);
 
 CREATE TABLE addon
 (
     addon_id INT NOT NULL AUTO_INCREMENT,
     addon_name VARCHAR(60) NOT NULL,
+    addon_category_id VARCHAR(60) NOT NULL,
     addon_price VARCHAR(10) NOT NULL,
-    store_id INT NOT NULL,
     PRIMARY KEY (addon_id),
+    FOREIGN KEY (addon_category_id) REFERENCES addon_category(addon_category_id)
+);
+
+CREATE TABLE menu_type
+(
+    menu_type_id INT NOT NULL AUTO_INCREMENT,
+    menu_type_name VARCHAR(60) NOT NULL,
+    menu_type_priority int,
+    store_id INT NOT NULL,
+    PRIMARY KEY (menu_type_id),
     FOREIGN KEY (store_id) REFERENCES store(store_id)
 );
 
@@ -55,9 +75,11 @@ CREATE TABLE menu
     menu_id INT NOT NULL AUTO_INCREMENT,
     menu_name VARCHAR(60) NOT NULL,
     menu_price VARCHAR(10) NOT NULL,
+    menu_type_id INT,
     store_id INT NOT NULL,
     addon_id INT,
     PRIMARY KEY (menu_id),
     FOREIGN KEY (store_id) REFERENCES store(store_id),
-    FOREIGN KEY (addon_id) REFERENCES addon(addon_id)
+    FOREIGN KEY (addon_id) REFERENCES addon(addon_id),
+    FOREIGN KEY (menu_type_id) REFERENCES menu_type(menu_type_id)
 );

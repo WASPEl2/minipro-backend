@@ -16,10 +16,17 @@ ns = api.namespace("SmartCanteen")
 ALLOWED_EXTENSIONS = {"png", "jpg"}
 
 
-@app.route("/")
-class Home(Resource):
+@ns.route("/")
+class storeDetail(Resource):
     def get(self):
-        return {"message": "Welcome to the SmartCanteen API!"}, 200
+        try:
+            return {"message": "Welcome to the SmartCanteen API!"}, 200
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
 
 
 @ns.route("/store")
@@ -130,7 +137,7 @@ class Register(Resource):
             cursor.close()
             connection.close()
 
-            return {"message": "store registration successful"}, 200
+            return {"message": "store registration successful"}, 201
 
         except Exception as e:
             return {
@@ -216,6 +223,138 @@ class storeDetail(Resource):
                 return {"data": store_detail}, 200
             else:
                 return {"message": f"Store with ID {id} not found"}, 404
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+
+@ns.route("/store/menutype")
+class menutype(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+
+            if "storeid" in data and "menuType" in data:
+                storeid = data.get("storeid")
+                menuType = data.get("menuType")
+
+                db_connection = MysqlConnection()
+                connection = db_connection.connect_mysql()
+                cursor = connection.cursor()
+                query = (
+                    "INSERT INTO menu_type (menu_type_name, store_id) VALUES (%s, %s)"
+                )
+                cursor.execute(query, (menuType, storeid))
+                connection.commit()
+
+                cursor.close()
+                connection.close()
+
+                return {
+                    "message": "Menu type inserted successfully",
+                }, 201
+
+            return {
+                "message": "Invalid request data. 'storeid' and 'menuType' are required."
+            }, 400
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+    def get(self):
+        try:
+            storeid = request.args.get("storeid")
+
+            if not storeid:
+                return {"message": "Missing 'storeid' parameter"}, 400
+
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            query = "SELECT * FROM menu_type WHERE store_id = %s"
+            cursor.execute(query, (storeid,))
+            menu_types = cursor.fetchall()
+
+            cursor.close()
+            connection.close()
+
+            menu_type_list = [
+                {"menu_type_id": row[0], "menu_type_name": row[1], "store_id": row[2]}
+                for row in menu_types
+            ]
+
+            return {"data": menu_type_list}, 200
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+
+@ns.route("/store/menutype/<int:menuTypeid>")
+class UpdateMenuType(Resource):
+    def put(self, menuTypeid):
+        try:
+            data = request.get_json()
+
+            if "menuType" in data:
+                new_menu_type_name = data.get("menuType")
+
+                db_connection = MysqlConnection()
+                connection = db_connection.connect_mysql()
+                cursor = connection.cursor()
+
+                # Update the menu type name for the specified menuTypeid
+                query = (
+                    "UPDATE menu_type SET menu_type_name = %s WHERE menu_type_id = %s"
+                )
+                cursor.execute(query, (new_menu_type_name, menuTypeid))
+                connection.commit()
+
+                cursor.close()
+                connection.close()
+
+                return {
+                    "message": "Menu type updated successfully",
+                }, 200
+
+            return {"message": "Invalid request data. 'menuType' is required."}, 400
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+    def delete(self, menuTypeid):
+        try:
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            query = "SELECT * FROM menu_type WHERE menu_type_id = %s"
+            cursor.execute(query, (menuTypeid,))
+            existing_menu_type = cursor.fetchone()
+
+            if not existing_menu_type:
+                return {"message": "Menu type not found"}, 404
+
+            delete_query = "DELETE FROM menu_type WHERE menu_type_id = %s"
+            cursor.execute(delete_query, (menuTypeid,))
+            connection.commit()
+
+            cursor.close()
+            connection.close()
+
+            return {"message": "Menu type deleted successfully"}, 200
 
         except Exception as e:
             return {

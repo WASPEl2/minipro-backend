@@ -57,26 +57,35 @@ FROM
     information_schema.tables
 LIMIT 100;
 
--- Simulate order_menu data
-INSERT INTO order_menu (order_id, menu_id, addon_id, choice_select, choice_price,menu_quantity, menu_status, menu_totalprice)
+INSERT INTO order_menu (order_id, menu_id, addon_id, choice_select, choice_price, menu_quantity, menu_status, menu_totalprice)
 SELECT
-    FLOOR(1 + RAND() * 100) as order_id, -- Random order_id between 2 and 101
-    FLOOR(1 + RAND() * 5) as menu_id, -- Random menu_id between 1 and 5
-    FLOOR(1 + RAND() * 3) as addon_id, -- Random addon_id between 1 and 3
-    FLOOR(1 + RAND() * 3) as choice_select, -- Random choice_select between 1 and 3
-    ROUND(RAND() * 10, 2) as choice_price, -- Random choice_price between 0 and 10
+    FLOOR(1 + RAND() * 100) as order_id,
+    t1.n as menu_id,
+    FLOOR(1 + RAND() * 3) as addon_id,
+    FLOOR(1 + RAND() * 3) as choice_select,
+    ROUND(RAND() * 10, 2) as choice_price,
     FLOOR(1 + RAND() * 3) as menu_quantity,
     CASE
-        WHEN RAND() < 0.2 THEN 'wait payment' -- 20% chance of 'wait payment'
-        WHEN RAND() < 0.4 THEN 'pending' -- 20% chance of 'pending'
-        WHEN RAND() < 0.6 THEN 'cooking' -- 20% chance of 'cooking'
-        WHEN RAND() < 0.8 THEN 'waiting' -- 20% chance of 'waiting'
-        ELSE 'complete' -- 20% chance of 'complete'
+        WHEN RAND() < 0.2 THEN 'wait payment'
+        WHEN RAND() < 0.4 THEN 'pending'
+        WHEN RAND() < 0.6 THEN 'cooking'
+        WHEN RAND() < 0.8 THEN 'waiting'
+        ELSE 'complete'
     END as menu_status,
-    0 as menu_totalprice -- Set menu_totalprice to 0 (you need to adjust this based on your calculation logic)
+    0 as menu_totalprice
 FROM
-    -- Generate 200 rows of data
     (SELECT 1 AS n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5) t1,
     (SELECT 1 AS n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5) t2,
     (SELECT 1 AS n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5) t3
-LIMIT 200;
+WHERE
+    NOT EXISTS (
+        SELECT 1
+        FROM order_menu om
+        WHERE om.order_id = FLOOR(1 + RAND() * 100)  -- Same as the generated order_id
+          AND om.menu_id = t1.n  -- Same as the generated menu_id
+    )
+LIMIT 100;
+
+UPDATE order_menu
+SET menu_description = "อธิบายเพิ่มเติม"
+WHERE order_id > 35;

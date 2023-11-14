@@ -1,30 +1,29 @@
 {
     "data": [
             {
-                "menu_type_name": "หมวดหมู่ 1",
+                "order_id": "order_id",
+                "order_status": "order_status",
+                "customer_username":"customer_username",
+                "order_totalprice":"order_totalprice",
+
                 "menu_items": [
                     {
-                        "menu_id": 1,
-                        "menu_name": "กระเพรา",
-                        "menu_description": "",
-                        "menu_price": "45"
+                        "menu_name": "menu_name",
+                        "menu_description": "menu_description",
+                        "menu_quantity":"menu_quantity",
+                        "addon_items": [
+                            "menu_name": "menu_name",
+                            "choices":"choices"
+                        ]
                     },
                     {
-                        "menu_id": 2,
-                        "menu_name": "ผัดพริกเกลือ",
-                        "menu_description": "อร่อย",
-                        "menu_price": "35"
-                    }
-                ]
-            },
-            {
-                "menu_type_name": "หมวดหมู่ 2",
-                "menu_items": [
-                    {
-                        "menu_id": 3,
-                        "menu_name": "Another Dish",
-                        "menu_description": "Description",
-                        "menu_price": "50"
+                        "menu_name": "menu_name",
+                        "menu_description": "menu_description",
+                        "menu_quantity":"menu_quantity",
+                        "addon_items": [
+                            "menu_name": "menu_name",
+                            "choices":"choices"
+                        ]
                     }
                 ]
             }

@@ -5,12 +5,9 @@ from flask_cors import CORS
 from PIL import Image
 import pymysql
 
-import logging
 import base64
 import json
 import io
-
-logging.basicConfig(level=logging.ERROR)
 
 from database import MysqlConnection
 
@@ -679,15 +676,6 @@ class Menu(Resource):
             connection.close()
 
             return {"message": "Save menu successful"}, 201
-        except pymysql.Error as mysql_error:
-            # Capture and display the MySQL error
-            error_message = f"MySQL Error: {mysql_error}"
-            print(error_message)
-
-            return {
-                "message": "An error occurred while processing the request.",
-                "error": error_message,
-            }, 500
 
         except Exception as e:
             return {
@@ -836,6 +824,117 @@ class MenuWithMenuType(Resource):
                 "message": "An error occurred while retrieving menu data.",
                 "error": str(e),
             }, 500
+
+
+@ns.route("/store/showOrderbystatus")
+class ShowOrderByStatus(Resource):
+    def get(self):
+        try:
+            # Connect to the database
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            # Define the query to fetch orders with details
+            query = """
+                SELECT o.order_id, o.order_status, c.customer_username, o.order_totalprice,
+                       m.menu_name, om.menu_quantity, om.menu_description,
+                       a.addon_name, om.choice_select, a.choices
+                FROM `order` o
+                JOIN customer c ON o.customer_id = c.customer_id
+                JOIN order_menu om ON o.order_id = om.order_id
+                JOIN menu m ON om.menu_id = m.menu_id
+                LEFT JOIN addon a ON om.addon_id = a.addon_id
+                WHERE o.order_status != 'wait payment' AND o.order_status != 'complete' AND m.store_id 
+                ORDER BY o.order_id
+            """
+
+            # Execute the query
+            cursor.execute(query)
+            orders_data = cursor.fetchall()
+
+            # Close the database connection
+            cursor.close()
+            connection.close()
+
+            # Prepare the response data
+            orders_list = []
+            for row in orders_data:
+                order_dict = {
+                    "order_id": row[0],
+                    "order_status": row[1],
+                    "customer_username": row[2],
+                    "order_totalprice": row[3],
+                    "menu_items": [],
+                }
+
+                # Create a menu item dictionary
+                menu_item = {
+                    "menu_name": row[4],
+                    "menu_quantity": row[5],
+                    "menu_description": row[6],
+                    "addon_items": [],
+                }
+
+                # If addon data exists, add it to the menu item
+                if row[7] is not None:
+                    choiceslist_str = row[9]
+                    choiceslist = json.loads(choiceslist_str)
+                    addon_item = {
+                        "addon_name": row[7],
+                        "choices": [choiceslist[row[8] - 1]["name"]],
+                    }
+
+                    # Check if the order, menu, and addon items exist in the orders_list
+                    order_exists = next(
+                        (
+                            order
+                            for order in orders_list
+                            if order["order_id"] == row[0]
+                            and order["order_status"] == row[1]
+                        ),
+                        None,
+                    )
+
+                    if order_exists:
+                        # Check if the menu item exists in the existing order
+                        existing_menu_item = next(
+                            (
+                                item
+                                for item in order_exists["menu_items"]
+                                if item["menu_name"] == menu_item["menu_name"]
+                            ),
+                            None,
+                        )
+
+                        if existing_menu_item:
+                            # If menu item exists, append addon item to it
+                            existing_menu_item["addon_items"].append(addon_item)
+                        else:
+                            # If menu item does not exist, append it to the existing order
+                            menu_item["addon_items"].append(addon_item)
+                            order_exists["menu_items"].append(menu_item)
+                    else:
+                        # If order, menu, and addon do not exist, create a new order and append it to the orders_list
+                        menu_item["addon_items"].append(addon_item)
+                        order_dict["menu_items"].append(menu_item)
+                        orders_list.append(order_dict)
+
+            return {"data": orders_list}, 200
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while retrieving order data.",
+                "error": str(e),
+            }, 500
+
+
+@ns.route("/customer/readslip")
+class ReadSlip(Resource):
+    def post(self, addon_id):
+        # send slip image,customer id
+        return
+        # return data => transferslip_price,transferslip_sender,transferslip_receiver,transferslip_timestamp
 
 
 if __name__ == "__main__":

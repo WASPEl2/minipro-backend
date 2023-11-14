@@ -97,6 +97,7 @@ CREATE TABLE customer
 CREATE TABLE transfer_slip
 (
     transferslip_ref VARCHAR(20) NOT NULL, -- dont forget to input ex. '2023111399386992'
+    transferslip_image LONGBLOB NOT NULL,
     transferslip_timestamp TIMESTAMP NOT NULL,
     transferslip_price FLOAT NOT NULL,
     transferslip_sender VARCHAR(80) NOT NULL,
@@ -125,6 +126,7 @@ CREATE TABLE order_menu
     choice_select INT, -- one addon can choose only one choice
     choice_price FLOAT, -- if have choice_select must have this
     menu_quantity INT NOT NULL,
+    menu_description VARCHAR(200),
     menu_status VARCHAR(20) NOT NULL,
     menu_totalprice FLOAT,  -- calculate by menu price + all addon one menu can have meny addon
     FOREIGN KEY (order_id) REFERENCES `order`(order_id),

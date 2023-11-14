@@ -1,5 +1,5 @@
 DROP TABLE order_menu;
-DROP TABLE order;
+DROP TABLE `order`;
 DROP TABLE transfer_slip;
 DROP TABLE customer;
 DROP TABLE menu_addon;
@@ -62,7 +62,7 @@ CREATE TABLE menu
     menu_image LONGBLOB,
     menu_name VARCHAR(60) NOT NULL,
     menu_description VARCHAR(60),
-    menu_price FLOAT NOT NULL,
+    menu_price VARCHAR(10) NOT NULL,
     menu_addon JSON,
     menu_menutype JSON,
     store_id INT NOT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE transfer_slip
     PRIMARY KEY (transferslip_id)
 );
 
-CREATE TABLE orders
+CREATE TABLE `order`
 (
     order_id INT NOT NULL,
     order_rate FLOAT NOT NULL,
@@ -125,8 +125,9 @@ CREATE TABLE order_menu
     choice_select VARCHAR(20), -- one addon can choose only one choice
     menu_status VARCHAR(20) NOT NULL,
     menu_totalprice FLOAT,
-    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (order_id) REFERENCES `order`(order_id),
     FOREIGN KEY (menu_id) REFERENCES menu(menu_id),
     FOREIGN KEY (addon_id) REFERENCES addon(addon_id)
 );
+
 

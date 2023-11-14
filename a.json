@@ -1,0 +1,33 @@
+{
+    "data": [
+            {
+                "menu_type_name": "หมวดหมู่ 1",
+                "menu_items": [
+                    {
+                        "menu_id": 1,
+                        "menu_name": "กระเพรา",
+                        "menu_description": "",
+                        "menu_price": "45"
+                    },
+                    {
+                        "menu_id": 2,
+                        "menu_name": "ผัดพริกเกลือ",
+                        "menu_description": "อร่อย",
+                        "menu_price": "35"
+                    }
+                ]
+            },
+            {
+                "menu_type_name": "หมวดหมู่ 2",
+                "menu_items": [
+                    {
+                        "menu_id": 3,
+                        "menu_name": "Another Dish",
+                        "menu_description": "Description",
+                        "menu_price": "50"
+                    }
+                ]
+            }
+        ]
+    
+}

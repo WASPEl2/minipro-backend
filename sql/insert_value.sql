@@ -1,3 +1,6 @@
-
-INSERT INTO store (store_name, store_owner, store_number, store_pwd,store_type,store_locate)
-VALUES ("ร้านค้าน้องม่า", "น้องม่า รักเด็ก", "0616953710", "123456","อาหารสำหรับเด็ก","โรงเรียนอนุบาลศึกษา");
+INSERT INTO menu_type (menu_type_name, store_id)
+VALUES ('ประเภทเมนู 1', 1),
+        ('ประเภทเมนู 2', 1),
+        ('ประเภทเมนู 3', 1),
+        ('ประเภทเมนู 4', 1),
+        ('ประเภทเมนู 5', 1);

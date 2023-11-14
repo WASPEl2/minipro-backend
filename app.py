@@ -3,9 +3,14 @@ from flask_restx import Api, Resource, fields
 from datetime import datetime
 from flask_cors import CORS
 from PIL import Image
+import pymysql
+
+import logging
 import base64
 import json
 import io
+
+logging.basicConfig(level=logging.ERROR)
 
 from database import MysqlConnection
 
@@ -189,7 +194,7 @@ class Login(Resource):
 
 
 @ns.route("/store/dashboard")
-class storeDetail(Resource):
+class storeDashboard(Resource):
     def get(self):
         try:
             id = request.args.get("id")
@@ -233,7 +238,7 @@ class storeDetail(Resource):
 
 
 @ns.route("/store/menutype")
-class menutype(Resource):
+class Menutype(Resource):
     def post(self):
         try:
             data = request.get_json()
@@ -313,7 +318,6 @@ class ManageMenuType(Resource):
                 connection = db_connection.connect_mysql()
                 cursor = connection.cursor()
 
-                # Update the menu type name for the specified menuTypeid
                 query = (
                     "UPDATE menu_type SET menu_type_name = %s WHERE menu_type_id = %s"
                 )
@@ -478,14 +482,11 @@ class UpdateAddon(Resource):
 
     def delete(self, addon_id):
         try:
-            print("start")
             data = request.get_json()
-            print(data)
             if "storeid" not in data:
                 return {"message": "Missing 'storeid' in request data"}, 400
 
             storeid = data.get("storeid")
-            print("store", storeid)
 
             db_connection = MysqlConnection()
             connection = db_connection.connect_mysql()
@@ -547,6 +548,292 @@ class UpdateAddonChoice(Resource):
         except Exception as e:
             return {
                 "message": "An error occurred while updating the choice.",
+                "error": str(e),
+            }, 500
+
+
+@ns.route("/store/menu")
+class Menu(Resource):
+    def post(self):
+        try:
+            required_fields = [
+                "storeid",
+                "menu_name",
+                "menu_description",
+                "menu_price",
+                "menu_addon",
+                "menu_menutype",
+            ]
+            missing_fields = [
+                field for field in required_fields if field not in request.form
+            ]
+            if missing_fields:
+                return {"error": f"Missing fields: {', '.join(missing_fields)}"}, 400
+
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            store_id = request.form["storeid"]
+            menu_name = request.form["menu_name"]
+            menu_description = request.form["menu_description"]
+            menu_price = request.form["menu_price"]
+            menu_addon = request.form["menu_addon"]
+            menu_menutype = request.form["menu_menutype"]
+
+            menu_addon = json.dumps(menu_addon)
+            menu_menutype = json.dumps(menu_menutype)
+
+            menu_description_stripped = menu_description.strip()
+            if not menu_description_stripped:
+                menu_description = ""
+
+            if "foodImage" in request.files:
+                menu_image = request.files["foodImage"].read()
+
+                if menu_image.startswith(b"\x89PNG\r\n\x1a\n"):
+                    image = Image.open(io.BytesIO(menu_image))
+                    buffer = io.BytesIO()
+                    image.convert("RGB").save(buffer, format="JPEG")
+                    menu_image = buffer.getvalue()
+            else:
+                menu_image = None
+
+            if "menu_id" in request.form:
+                menu_id = request.form["menu_id"]
+
+                # Remove old addon associations
+                cursor.execute("DELETE FROM menu_addon WHERE menu_id = %s", (menu_id,))
+
+                # Remove old menutype associations
+                cursor.execute(
+                    "DELETE FROM menu_menutype WHERE menu_id = %s", (menu_id,)
+                )
+
+                cursor.execute(
+                    "UPDATE menu SET menu_image = %s, menu_name = %s, menu_description = %s, menu_price = %s, menu_addon = %s, menu_menutype = %s, store_id = %s WHERE menu_id = %s",
+                    (
+                        menu_image,
+                        menu_name,
+                        menu_description,
+                        menu_price,
+                        menu_addon,
+                        menu_menutype,
+                        store_id,
+                        menu_id,
+                    ),
+                )
+            else:
+                cursor.execute(
+                    "INSERT INTO menu (menu_image, menu_name, menu_description, menu_price, menu_addon, menu_menutype, store_id) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                    (
+                        menu_image,
+                        menu_name,
+                        menu_description,
+                        menu_price,
+                        menu_addon,
+                        menu_menutype,
+                        store_id,
+                    ),
+                )
+
+                cursor.execute(
+                    "SELECT menu_id FROM menu WHERE menu_name = %s AND menu_description = %s AND menu_price = %s AND store_id = %s",
+                    (
+                        menu_name,
+                        menu_description,
+                        menu_price,
+                        store_id,
+                    ),
+                )
+                row = cursor.fetchone()
+                if row:
+                    menu_id = row[0]
+                else:
+                    return {"message": "Missing when finding 'menu_id'"}, 400
+
+            selected_addons = menu_addon.split(",")
+            selected_addons = [(addon.strip('""')) for addon in selected_addons]
+            selected_menu_types = menu_menutype.split(",")
+            selected_menu_types = [
+                (menu_type.strip('""')) for menu_type in selected_menu_types
+            ]
+            if selected_addons != [""]:
+                addon_values = [(menu_id, addon_id) for addon_id in selected_addons]
+                cursor.executemany(
+                    "INSERT INTO menu_addon (menu_id, addon_id) VALUES (%s, %s)",
+                    addon_values,
+                )
+
+            if selected_menu_types != [""]:
+                menu_type_values = [
+                    (menu_id, menu_type_id) for menu_type_id in selected_menu_types
+                ]
+                cursor.executemany(
+                    "INSERT INTO menu_menutype (menu_id, menu_type_id) VALUES (%s, %s)",
+                    menu_type_values,
+                )
+            connection.commit()
+
+            cursor.close()
+            connection.close()
+
+            return {"message": "Save menu successful"}, 201
+        except pymysql.Error as mysql_error:
+            # Capture and display the MySQL error
+            error_message = f"MySQL Error: {mysql_error}"
+            print(error_message)
+
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": error_message,
+            }, 500
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+
+@ns.route("/store/menu/<int:menu_id>")
+class DeleteMenu(Resource):
+    def delete(self, menu_id):
+        try:
+            # Check if the menu with the given ID exists
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            query = "SELECT * FROM menu WHERE menu_id = %s"
+            cursor.execute(query, (menu_id))
+            existing_menu = cursor.fetchone()
+
+            if not existing_menu:
+                cursor.close()
+                connection.close()
+                return {"message": "Menu not found"}, 404
+
+            # Delete the menu and associated records (menu_addon and menu_menutype)
+            cursor.execute("DELETE FROM menu WHERE menu_id = %s", (menu_id,))
+            cursor.execute("DELETE FROM menu_addon WHERE menu_id = %s", (menu_id,))
+            cursor.execute("DELETE FROM menu_menutype WHERE menu_id = %s", (menu_id,))
+
+            connection.commit()
+            cursor.close()
+            connection.close()
+
+            return {"message": "Menu deleted successfully"}, 200
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+
+@ns.route("/store/menus")
+class MenuWithMenuType(Resource):
+    def get(self):
+        try:
+            store_id = request.args.get("storeid")
+            if not store_id:
+                return {"message": "Missing 'storeid' parameter"}, 400
+
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            query = """
+            SELECT
+                mt.menu_type_id,
+                mt.menu_type_name,
+                mt.menu_type_priority,
+                m.menu_id,
+                m.menu_image,
+                m.menu_name,
+                m.menu_description,
+                m.menu_price,
+                m.menu_addon,
+                m.menu_menutype
+            FROM 
+                menu_type mt
+            LEFT JOIN 
+                menu_menutype mm ON mt.menu_type_id = mm.menu_type_id
+            LEFT JOIN 
+                menu m ON mm.menu_id = m.menu_id
+            WHERE
+                mt.store_id = %s
+            UNION
+            SELECT
+                0 AS menu_type_id,
+                'ยังไม่ถูกจัดหมวดหมู่' AS menu_type_name,
+                128 AS menu_type_priority,
+                m.menu_id,
+                m.menu_image,
+                m.menu_name,
+                m.menu_description,
+                m.menu_price,
+                m.menu_addon,
+                m.menu_menutype
+            FROM 
+                menu m
+            LEFT JOIN 
+                menu_menutype mm ON m.menu_id = mm.menu_id
+            WHERE
+                m.store_id = %s AND mm.menu_type_id IS NULL;
+            """
+            cursor.execute(query, (store_id, store_id))
+            menu_data = cursor.fetchall()
+            cursor.close()
+            connection.close()
+
+            menu_list = []
+            for row in menu_data:
+                menu_type_id = row[0]
+                menu_type_name = row[1]
+                menu_type_priority = row[2]
+                menu_item = {
+                    "menu_id": row[3],
+                    "menu_name": row[5],
+                    "menu_description": row[6],
+                    "menu_price": row[7],
+                    "menu_addon": row[8],
+                    "menu_menutype": row[9],
+                }
+
+                # Check if the menu_image is not None before encoding it.
+                if row[4] is not None:
+                    menu_item["menu_image"] = base64.b64encode(row[4]).decode("utf-8")
+
+                menu_type = next(
+                    (
+                        item
+                        for item in menu_list
+                        if item["menu_type_name"] == menu_type_name
+                    ),
+                    None,
+                )
+                if menu_type is None:
+                    menu_list.append(
+                        {
+                            "menu_type_id": menu_type_id,
+                            "menu_type_name": menu_type_name,
+                            "menu_type_priority": menu_type_priority,
+                            "menu_items": [menu_item],
+                        }
+                    )
+                else:
+                    menu_type["menu_items"].append(menu_item)
+
+            sorted_menu_list = sorted(
+                menu_list, key=lambda x: (-x["menu_type_priority"], x["menu_type_id"])
+            )
+
+            return {"data": sorted_menu_list}, 200
+        except Exception as e:
+            return {
+                "message": "An error occurred while retrieving menu data.",
                 "error": str(e),
             }, 500
 

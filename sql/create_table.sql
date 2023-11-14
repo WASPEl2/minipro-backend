@@ -96,38 +96,44 @@ CREATE TABLE customer
 );
 CREATE TABLE transfer_slip
 (
-    transferslip_id INT NOT NULL,
-    transferslip_date DATE NOT NULL,
-    transferslip_timestamp DATE NOT NULL,
+    transferslip_ref VARCHAR(20) NOT NULL, -- dont forget to input ex. '2023111399386992'
+    transferslip_timestamp TIMESTAMP NOT NULL,
     transferslip_price FLOAT NOT NULL,
     transferslip_sender VARCHAR(80) NOT NULL,
     transferslip_receiver VARCHAR(80) NOT NULL,
-    PRIMARY KEY (transferslip_id)
+    PRIMARY KEY (transferslip_ref)
 );
 
 CREATE TABLE `order`
 (
-    order_id INT NOT NULL,
-    order_rate FLOAT NOT NULL,
-    order_rate_count INT NOT NULL,
-    order_status VARCHAR(20) NOT NULL,
+    order_id INT NOT NULL AUTO_INCREMENT,
+    order_rate FLOAT ,
+    order_status VARCHAR(20) NOT NULL, -- "wait paymeny" "pending" "cooking" "waiting" "complete"
     order_totalprice FLOAT NOT NULL,
     customer_id INT NOT NULL,
+    transferslip_ref VARCHAR(20) NOT NULL,
     PRIMARY KEY (order_id),
-    FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+    FOREIGN KEY (transferslip_ref) REFERENCES transfer_slip(transferslip_ref)
 );
 
 CREATE TABLE order_menu
 (
     order_id INT NOT NULL,
-    menu_id INT NOT NULL,
+    menu_id INT NOT NULL, -- one order can be many menu now i have menu id 1 - 5
     addon_id INT,
-    choice_select VARCHAR(20), -- one addon can choose only one choice
+    choice_select INT, -- one addon can choose only one choice
+    choice_price FLOAT, -- if have choice_select must have this
+    menu_quantity INT NOT NULL,
     menu_status VARCHAR(20) NOT NULL,
-    menu_totalprice FLOAT,
+    menu_totalprice FLOAT,  -- calculate by menu price + all addon one menu can have meny addon
     FOREIGN KEY (order_id) REFERENCES `order`(order_id),
     FOREIGN KEY (menu_id) REFERENCES menu(menu_id),
-    FOREIGN KEY (addon_id) REFERENCES addon(addon_id)
+    FOREIGN KEY (addon_id) REFERENCES addon(addon_id),
+    CHECK (
+        (choice_select IS NULL AND choice_price IS NULL) OR
+        (choice_select IS NOT NULL AND choice_price IS NOT NULL)
+    )
 );
 
 

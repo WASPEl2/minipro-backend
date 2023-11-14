@@ -1,3 +1,7 @@
+DROP TABLE order_menu;
+DROP TABLE order;
+DROP TABLE transfer_slip;
+DROP TABLE customer;
 DROP TABLE menu_addon;
 DROP TABLE menu_menutype;
 DROP TABLE menu;
@@ -5,15 +9,9 @@ DROP TABLE menu_type;
 DROP TABLE addon;
 DROP TABLE openTime;
 DROP TABLE store;
-DROP TABLE customer;
 
-CREATE TABLE customer
-(
-    customer_id INT NOT NULL,
-    customer_name VARCHAR(40) NOT NULL,
-    customer_pwd VARCHAR(40) NOT NULL,
-    PRIMARY KEY (customer_id)
-);
+
+
 CREATE TABLE store
 (
     store_id INT NOT NULL AUTO_INCREMENT,
@@ -64,7 +62,7 @@ CREATE TABLE menu
     menu_image LONGBLOB,
     menu_name VARCHAR(60) NOT NULL,
     menu_description VARCHAR(60),
-    menu_price VARCHAR(10) NOT NULL,
+    menu_price FLOAT NOT NULL,
     menu_addon JSON,
     menu_menutype JSON,
     store_id INT NOT NULL,
@@ -87,3 +85,48 @@ CREATE TABLE menu_addon
     FOREIGN KEY (menu_id) REFERENCES menu(menu_id),
     FOREIGN KEY (addon_id) REFERENCES addon(addon_id)
 );
+CREATE TABLE customer
+(
+    customer_id INT NOT NULL,
+    customer_username VARCHAR(20) NOT NULL,
+    customer_pwd VARCHAR(20) NOT NULL,
+    customer_phone VARCHAR(10) NOT NULL,
+    customer_mail VARCHAR(40) NOT NULL,
+    PRIMARY KEY (customer_id)
+);
+CREATE TABLE transfer_slip
+(
+    transferslip_id INT NOT NULL,
+    transferslip_date DATE NOT NULL,
+    transferslip_timestamp DATE NOT NULL,
+    transferslip_price FLOAT NOT NULL,
+    transferslip_sender VARCHAR(80) NOT NULL,
+    transferslip_receiver VARCHAR(80) NOT NULL,
+    PRIMARY KEY (transferslip_id)
+);
+
+CREATE TABLE orders
+(
+    order_id INT NOT NULL,
+    order_rate FLOAT NOT NULL,
+    order_rate_count INT NOT NULL,
+    order_status VARCHAR(20) NOT NULL,
+    order_totalprice FLOAT NOT NULL,
+    customer_id INT NOT NULL,
+    PRIMARY KEY (order_id),
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+);
+
+CREATE TABLE order_menu
+(
+    order_id INT NOT NULL,
+    menu_id INT NOT NULL,
+    addon_id INT,
+    choice_select VARCHAR(20), -- one addon can choose only one choice
+    menu_status VARCHAR(20) NOT NULL,
+    menu_totalprice FLOAT,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (menu_id) REFERENCES menu(menu_id),
+    FOREIGN KEY (addon_id) REFERENCES addon(addon_id)
+);
+

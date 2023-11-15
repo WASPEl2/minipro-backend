@@ -3,10 +3,10 @@ import pymysql
 
 class MysqlConnection(object):
     def __init__(self):
-        self.host = "mysql-153286-0.cloudclusters.net"
-        self.port = "18242"
+        self.host = "mysql-154265-0.cloudclusters.net"
+        self.port = "18708"
         self.user = "admin"
-        self.passwd = "YLrPsYgV"
+        self.passwd = "WoPhVOl1"
         self.db = "SmartCanteen"
 
     def connect_mysql(self):

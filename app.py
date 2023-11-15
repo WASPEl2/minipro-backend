@@ -549,7 +549,49 @@ class UpdateAddonChoice(Resource):
                 "message": "An error occurred while updating the choice.",
                 "error": str(e),
             }, 500
+        
+@ns.route("/customer/storeList")
+class storeList(Resource):
+    def get(self):
+        try:
+            id = request.args.get("id")
+            if id is None:
+                return {"message": "ID parameter is missing in the request"}, 400
 
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            query = "SELECT store_name, store_locate, store_image, open_time, close_time FROM store LEFT JOIN openTime ON store.store_id = openTime.store_id WHERE store.store_id = %s"
+            cursor.execute(query, (id,))
+            store_data = cursor.fetchone()
+
+            cursor.close()
+            connection.close()
+
+            if store_data:
+                # image_data = io.BytesIO(store_data[2])
+                # image = Image.open(image_data)
+                # image.show()
+                store_data = list(store_data)
+                store_data[2] = base64.b64encode(store_data[2]).decode("utf-8")
+
+                store_detail = {
+                    "store_name": store_data[0],
+                    "store_locate": store_data[1],
+                    "store_image": store_data[2],
+                    "open_time": store_data[3],
+                    "close_time": store_data[4],
+                }
+                return {"data": store_detail}, 200
+            else:
+                return {"message": f"Store with ID {id} not found"}, 404
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
 
 if __name__ == "__main__":
     app.run(debug=True)

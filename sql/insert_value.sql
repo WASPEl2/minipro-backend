@@ -4,11 +4,11 @@ VALUES ('ประเภทเมนู 1', 1),
         ('ประเภทเมนู 3', 1),
 
 -- Inserting sample data into the customer table
-INSERT INTO customer (customer_id, customer_username, customer_pwd, customer_phone, customer_mail)
+INSERT INTO customer ( customer_username, customer_pwd, customer_phone, customer_mail)
 VALUES
-    (1, 'john_doe', 'password123', '1234567890', 'john.doe@email.com'),
-    (2, 'jane_smith', 'securepass', '9876543210', 'jane.smith@email.com'),
-    (3, 'bob_jones', 'bobspassword', '5551234567', 'bob.jones@email.com');
+    ('john_doe', 'password123', '1234567890', 'john.doe@email.com'),
+    ('jane_smith', 'securepass', '9876543210', 'jane.smith@email.com'),
+    ('bob_jones', 'bobspassword', '5551234567', 'bob.jones@email.com');
 
 INSERT INTO addon (addon_name, choices, store_id, areRequir)
 VALUES
@@ -55,7 +55,7 @@ SELECT
     ROUND(RAND() * 100 + 50, 2) -- Random order_totalprice between 50 and 150
 FROM
     information_schema.tables
-LIMIT 100;
+LIMIT 20;
 
 INSERT INTO order_menu (order_id, menu_id, addon_id, choice_select, choice_price, menu_quantity, menu_status, menu_totalprice)
 SELECT
@@ -84,7 +84,7 @@ WHERE
         WHERE om.order_id = FLOOR(1 + RAND() * 100)  -- Same as the generated order_id
           AND om.menu_id = t1.n  -- Same as the generated menu_id
     )
-LIMIT 100;
+LIMIT 40;
 
 UPDATE order_menu
 SET menu_description = "อธิบายเพิ่มเติม"

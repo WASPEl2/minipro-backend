@@ -93,12 +93,14 @@ CREATE TABLE customer
 CREATE TABLE transfer_slip
 (   
     transferslip_ref VARCHAR(20) NOT NULL, -- dont forget to input ex. '2023111399386992'
+    customer_id INT NOT NULL, -- dont forget to input ex. '2023111399386992'
     transferslip_image LONGBLOB NOT NULL,
     transferslip_timestamp TIMESTAMP NOT NULL,
     transferslip_price FLOAT NOT NULL,
     transferslip_sender VARCHAR(80) NOT NULL,
     transferslip_receiver VARCHAR(80) NOT NULL,
     PRIMARY KEY (transferslip_ref)
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
 );
 CREATE TABLE `order`
 (

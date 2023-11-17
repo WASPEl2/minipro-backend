@@ -1,9 +1,10 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_restx import Api, Resource, fields
 from datetime import datetime
 from flask_cors import CORS
 from PIL import Image
 import pymysql
+import requests
 
 import base64
 import json
@@ -62,6 +63,56 @@ class storeData(Resource):
         except Exception as e:
             return {
                 "message": "An error occurred while retrieving data.",
+                "error": str(e),
+            }, 500
+
+
+@ns.route("/store/check-username/<string:username>")
+class CheckUsername(Resource):
+    def get(self, username):
+        try:
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            query = "SELECT COUNT(*) FROM store WHERE store_username = %s"
+            cursor.execute(query, (username,))
+            count = cursor.fetchone()[0]
+
+            cursor.close()
+            connection.close()
+
+            is_unique = count == 0
+            return {"isUnique": is_unique}, 200
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+
+@ns.route("/store/check-number/<string:number>")
+class CheckNumber(Resource):
+    def get(self, number):
+        try:
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            query = "SELECT COUNT(*) FROM store WHERE store_number = %s"
+            cursor.execute(query, (number,))
+            count = cursor.fetchone()[0]
+
+            cursor.close()
+            connection.close()
+
+            is_unique = count == 0
+            return {"isUnique": is_unique}, 200
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
                 "error": str(e),
             }, 500
 
@@ -748,7 +799,9 @@ class Menu(Resource):
             menu_addon = request.form["menu_addon"]
             menu_menutype = request.form["menu_menutype"]
 
+            menu_addon = [int(x) for x in menu_addon.split(",") if x]
             menu_addon = json.dumps(menu_addon)
+            menu_menutype = [int(x) for x in menu_menutype.split(",") if x]
             menu_menutype = json.dumps(menu_menutype)
 
             menu_description_stripped = menu_description.strip()
@@ -816,26 +869,27 @@ class Menu(Resource):
                 row = cursor.fetchone()
                 if row:
                     menu_id = row[0]
+                    connection.commit()
                 else:
                     return {"message": "Missing when finding 'menu_id'"}, 400
 
-            selected_addons = menu_addon.split(",")
-            selected_addons = [(addon.strip('""')) for addon in selected_addons]
-            selected_menu_types = menu_menutype.split(",")
-            selected_menu_types = [
-                (menu_type.strip('""')) for menu_type in selected_menu_types
-            ]
-            if selected_addons != [""]:
-                addon_values = [(menu_id, addon_id) for addon_id in selected_addons]
+            menu_addon = json.loads(menu_addon)
+            menu_menutype = json.loads(menu_menutype)
+
+            if menu_addon and menu_addon[0] != "":
+                addon_values = [(menu_id, int(addon_id)) for addon_id in menu_addon]
+                print(addon_values)
                 cursor.executemany(
                     "INSERT INTO menu_addon (menu_id, addon_id) VALUES (%s, %s)",
                     addon_values,
                 )
 
-            if selected_menu_types != [""]:
+            if menu_menutype and menu_menutype[0] != "":
                 menu_type_values = [
-                    (menu_id, menu_type_id) for menu_type_id in selected_menu_types
+                    (menu_id, int(menu_type_id)) for menu_type_id in menu_menutype
                 ]
+                print(menu_type_values)
+
                 cursor.executemany(
                     "INSERT INTO menu_menutype (menu_id, menu_type_id) VALUES (%s, %s)",
                     menu_type_values,
@@ -873,9 +927,9 @@ class DeleteMenu(Resource):
                 return {"message": "Menu not found"}, 404
 
             # Delete the menu and associated records (menu_addon and menu_menutype)
-            cursor.execute("DELETE FROM menu WHERE menu_id = %s", (menu_id,))
             cursor.execute("DELETE FROM menu_addon WHERE menu_id = %s", (menu_id,))
             cursor.execute("DELETE FROM menu_menutype WHERE menu_id = %s", (menu_id,))
+            cursor.execute("DELETE FROM menu WHERE menu_id = %s", (menu_id,))
 
             connection.commit()
             cursor.close()
@@ -1000,16 +1054,14 @@ class MenuWithMenuType(Resource):
 class ShowOrderByStatus(Resource):
     def get(self):
         try:
-            # Connect to the database
             db_connection = MysqlConnection()
             connection = db_connection.connect_mysql()
             cursor = connection.cursor()
 
-            # Define the query to fetch orders with details
             query = """
                 SELECT o.order_id, o.order_status, c.customer_username, o.order_totalprice,
                        m.menu_name, om.menu_quantity, om.menu_description,
-                       a.addon_name, om.choice_select, a.choices
+                       a.addon_name, om.choice_select, a.choices ,transferslip_ref
                 FROM `order` o
                 JOIN customer c ON o.customer_id = c.customer_id
                 JOIN order_menu om ON o.order_id = om.order_id
@@ -1019,15 +1071,12 @@ class ShowOrderByStatus(Resource):
                 ORDER BY o.order_id
             """
 
-            # Execute the query
             cursor.execute(query)
             orders_data = cursor.fetchall()
 
-            # Close the database connection
             cursor.close()
             connection.close()
 
-            # Prepare the response data
             orders_list = []
             for row in orders_data:
                 order_dict = {
@@ -1035,10 +1084,10 @@ class ShowOrderByStatus(Resource):
                     "order_status": row[1],
                     "customer_username": row[2],
                     "order_totalprice": row[3],
+                    "transferslip_ref": row[10],
                     "menu_items": [],
                 }
 
-                # Create a menu item dictionary
                 menu_item = {
                     "menu_name": row[4],
                     "menu_quantity": row[5],
@@ -1046,7 +1095,6 @@ class ShowOrderByStatus(Resource):
                     "addon_items": [],
                 }
 
-                # If addon data exists, add it to the menu item
                 if row[7] is not None:
                     choiceslist_str = row[9]
                     choiceslist = json.loads(choiceslist_str)
@@ -1055,7 +1103,6 @@ class ShowOrderByStatus(Resource):
                         "choices": [choiceslist[row[8] - 1]["name"]],
                     }
 
-                    # Check if the order, menu, and addon items exist in the orders_list
                     order_exists = next(
                         (
                             order
@@ -1067,7 +1114,6 @@ class ShowOrderByStatus(Resource):
                     )
 
                     if order_exists:
-                        # Check if the menu item exists in the existing order
                         existing_menu_item = next(
                             (
                                 item
@@ -1078,14 +1124,11 @@ class ShowOrderByStatus(Resource):
                         )
 
                         if existing_menu_item:
-                            # If menu item exists, append addon item to it
                             existing_menu_item["addon_items"].append(addon_item)
                         else:
-                            # If menu item does not exist, append it to the existing order
                             menu_item["addon_items"].append(addon_item)
                             order_exists["menu_items"].append(menu_item)
                     else:
-                        # If order, menu, and addon do not exist, create a new order and append it to the orders_list
                         menu_item["addon_items"].append(addon_item)
                         order_dict["menu_items"].append(menu_item)
                         orders_list.append(order_dict)
@@ -1099,12 +1142,176 @@ class ShowOrderByStatus(Resource):
             }, 500
 
 
+@ns.route("/store/menu/updatestatus")
+class UpdateOrderStatus(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+
+            if "last_status" in data and "order_id_list" in data:
+                last_status = data.get("last_status")
+                order_id_list = data.get("order_id_list")
+
+                status = ["waitforpayment", "pending", "cooking", "waiting", "complete"]
+                print(last_status, order_id_list)
+
+                db_connection = MysqlConnection()
+                connection = db_connection.connect_mysql()
+                cursor = connection.cursor()
+
+                for order_id in order_id_list:
+                    new_status = status[
+                        (status.index(last_status) + 1) % len(status)
+                    ]  # Move to the next status
+
+                    query = """
+                        UPDATE `order`
+                        SET order_status = %s
+                        WHERE order_id = %s
+                    """
+                    cursor.execute(query, (new_status, order_id))
+                    connection.commit()
+
+                cursor.close()
+                connection.close()
+                return {"message": "Order status updated successfully"}, 200
+            return {
+                "message": "Invalid request data. 'last_status' and 'order_id_list' are required."
+            }, 400
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+
+@ns.route("/store/transferslipcheck/<string:transferslip_ref>")
+class TransferSlipDetails(Resource):
+    def get(self, transferslip_ref):
+        try:
+            # Connect to the database
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            # Define the query to fetch transfer_slip details
+            query = """
+                SELECT transferslip_ref, transferslip_timestamp,
+                       transferslip_price, transferslip_sender, transferslip_receiver
+                FROM transfer_slip
+                WHERE transferslip_ref = %s
+            """
+
+            # Execute the query
+            cursor.execute(query, (transferslip_ref,))
+            transferslip_data = cursor.fetchone()
+
+            # Close the database connection
+            cursor.close()
+            connection.close()
+
+            if transferslip_data:
+                transferslip_detail = {
+                    "transferslip_ref": transferslip_data[0],
+                    "transferslip_timestamp": transferslip_data[1].isoformat(),
+                    "transferslip_price": transferslip_data[2],
+                    "transferslip_sender": transferslip_data[3],
+                    "transferslip_receiver": transferslip_data[4],
+                    # "transferslip_image": transferslip_data[5].decode(
+                    #     "utf-8"
+                    # ),  # Convert LONGBLOB to string
+                }
+                return {"data": transferslip_detail}, 200
+            else:
+                return {"message": "Transfer slip not found"}, 404
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while retrieving transfer slip details.",
+                "error": str(e),
+            }, 500
+
+
 @ns.route("/customer/readslip")
 class ReadSlip(Resource):
-    def post(self, addon_id):
-        # send slip image,customer id
-        return
-        # return data => transferslip_price,transferslip_sender,transferslip_receiver,transferslip_timestamp
+    def post(self):
+        try:
+            required_fields = ["customer_id", "order_id"]
+            missing_fields = [
+                field for field in required_fields if field not in request.form
+            ]
+            if missing_fields:
+                return {"error": f"Missing fields: {', '.join(missing_fields)}"}, 400
+
+            # Your existing code for MySQL connection
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            customer_id = request.form["customer_id"]
+            order_id = request.form["order_id"]
+
+            # Your existing code for inserting into the store table
+            # ...
+
+            # Call the external API to get the slip information
+            response = self.get_slip_info()
+
+            # Extract relevant information from the response
+            slip_info = response.get("data", {})
+
+            # Save slip information into the transfer_slip table
+            query = """
+                INSERT INTO transfer_slip 
+                (transferslip_ref, transferslip_image, transferslip_timestamp, transferslip_price, transferslip_sender, transferslip_receiver)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            """
+            values = (
+                slip_info.get("transRef"),
+                slip_info.get(
+                    "transRef"
+                ),  # Assuming you want to save the image as well
+                slip_info.get("transTimestamp"),
+                slip_info.get("amount"),
+                slip_info.get("sender").get("displayName"),
+                slip_info.get("receiver").get("displayName"),
+            )
+
+            cursor.execute(query, values)
+            connection.commit()
+
+            cursor.close()
+            connection.close()
+
+            # Return relevant slip information to the client
+            return {
+                "transferslip_price": slip_info.get("amount"),
+                "transferslip_sender": slip_info.get("sender").get("displayName"),
+                "transferslip_receiver": slip_info.get("receiver").get("displayName"),
+                "transferslip_timestamp": slip_info.get("transTimestamp"),
+            }, 201
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+    def get_slip_info(self):
+        try:
+            with open("7868.jpg", "rb") as file:
+                files = {"files": (file.name, file, "image/jpeg")}
+                headers = {"x-authorization": "SLIPOKRP9I3TZ"}
+                response = requests.post(
+                    f"https://api.slipok.com/api/line/apikey/12665",
+                    files=files,
+                    headers=headers,
+                )
+                return response.json()
+        except Exception as err:
+            print(err)
+            return {"error": "An error occurred while getting slip information."}
 
 
 if __name__ == "__main__":

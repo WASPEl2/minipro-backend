@@ -552,44 +552,172 @@ class UpdateAddonChoice(Resource):
 class storeList(Resource):
     def get(self):
         try:
-            id = request.args.get("id")
-            if id is None:
-                return {"message": "ID parameter is missing in the request"}, 400
-
+            
             db_connection = MysqlConnection()
             connection = db_connection.connect_mysql()
             cursor = connection.cursor()
 
-            query = "SELECT store_name, store_locate, store_image, open_time, close_time FROM store LEFT JOIN openTime ON store.store_id = openTime.store_id WHERE store.store_id = %s"
-            cursor.execute(query, (id,))
-            store_data = cursor.fetchone()
+            query = "SELECT store_name, store_locate, store_image, open_time, close_time, store.store_id FROM store LEFT JOIN openTime ON store.store_id = openTime.store_id"
+            cursor.execute(query)
+            store_data = cursor.fetchall()
 
             cursor.close()
             connection.close()
-
-            if store_data:
-                # image_data = io.BytesIO(store_data[2])
-                # image = Image.open(image_data)
-                # image.show()
-                store_data = list(store_data)
-                store_data[2] = base64.b64encode(store_data[2]).decode("utf-8")
-
-                store_detail = {
-                    "store_name": store_data[0],
-                    "store_locate": store_data[1],
-                    "store_image": store_data[2],
-                    "open_time": store_data[3],
-                    "close_time": store_data[4],
+            storeList = []
+            for row in store_data:
+                print("Row Values:", row)
+                store_dict = {
+                    "store_name": row[0],
+                    "store_locate": row[1],
+                    "store_image": base64.b64encode(row[2]).decode("utf-8"),
+                    "open_time": row[3],
+                    "close_time": row[4],
+                    "store_id": row[5],
                 }
-                return {"data": store_detail}, 200
-            else:
-                return {"message": f"Store with ID {id} not found"}, 404
+                storeList.append(store_dict)
+
+            response = {"data" :storeList}
+            return response, 200
 
         except Exception as e:
             return {
                 "message": "An error occurred while processing the request.",
                 "error": str(e),
             }, 500
+
+@ns.route("/customer/mymenu/")
+class menuChoose(Resource):
+    def get(self):
+        try:
+            store_id = request.args.get('store_id')
+            if store_id is None:
+                return {"message": "Please provide a store_id in the query parameter."}, 400
+
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            query = "SELECT menu_name, menu_price, menu_addon, menu_menutype, menu_image FROM menu WHERE store_id = %s"
+            cursor.execute(query, (store_id,))
+            menu_data = cursor.fetchall()
+
+            cursor.close()
+            connection.close()
+            
+            menuList = []
+            for row in menu_data:
+                print("Row Values:", row)
+                if row[3] is not None:
+                    menu_dict = {
+                        "menu_name": row[0],
+                        "menu_price": row[1],
+                        "menu_addon": row[2],
+                        "menu_menutype": row[3],
+                        "menu_image": base64.b64encode(row[4]).decode("utf-8"),
+                    }
+                    menuList.append(menu_dict)
+
+            response = {"data": menuList}
+            return response, 200
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+@ns.route("/customer/register")
+class Register(Resource):
+    def post(self):
+        try:
+            required_fields = [
+                "username",
+                "password",
+                "phoneNumber",
+                "email",
+            ]
+            missing_fields = [
+                field for field in required_fields if field not in request.form
+            ]
+            if missing_fields:
+                return {"error": f"Missing fields: {', '.join(missing_fields)}"}, 400
+
+            db_connection = MysqlConnection()
+            connection = db_connection.connect_mysql()
+            cursor = connection.cursor()
+
+            customer_username = request.form["username"]
+            customer_pwd = request.form["password"]
+            customer_phone = request.form["phoneNumber"]
+            customer_mail = request.form["email"]
+
+            query = "INSERT INTO store (customer_username, customer_pwd, customer_phone, customer_mail) VALUES (%s, %s, %s, %s)"
+
+
+            cursor.execute(
+                query,
+                (
+                    customer_username,
+                    customer_pwd,
+                    customer_phone,
+                    customer_mail,
+                ),
+            )
+
+            connection.commit()
+
+            cursor.close()
+            connection.close()
+
+            return {"message": "customer registration successful"}, 201
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+
+@ns.route("/customer/login")
+class Login(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+
+            if "username" in data and "password" in data:
+                username = data.get("username")
+                password = data.get("password")
+
+                db_connection = MysqlConnection()
+                connection = db_connection.connect_mysql()
+                cursor = connection.cursor()
+
+                query = "SELECT customer_id FROM store WHERE (store_username = %s OR store_number = %s) AND store_pwd = %s"
+                cursor.execute(query, (username, username, password))
+                result = cursor.fetchone()
+
+                cursor.close()
+                connection.close()
+
+                if result:
+                    return {
+                        "message": "Login successful",
+                        "storid": result[0],
+                    }, 200
+                else:
+                    # Username not found in the database
+                    return {"message": "Username not found or incorrect password"}, 404
+
+            return {
+                "message": "Invalid request data. 'username' and 'password' are required."
+            }, 400
+
+        except Exception as e:
+            return {
+                "message": "An error occurred while processing the request.",
+                "error": str(e),
+            }, 500
+
+
 
 @ns.route("/store/menu")
 class Menu(Resource):

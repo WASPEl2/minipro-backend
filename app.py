@@ -683,7 +683,7 @@ class Register(Resource):
             required_fields = [
                 "username",
                 "password",
-                "phoneNumber",
+                "phoneNum",
                 "email",
             ]
             missing_fields = [
@@ -698,10 +698,10 @@ class Register(Resource):
 
             customer_username = request.form["username"]
             customer_pwd = request.form["password"]
-            customer_phone = request.form["phoneNumber"]
+            customer_phone = request.form["phoneNum"]
             customer_mail = request.form["email"]
 
-            query = "INSERT INTO store (customer_username, customer_pwd, customer_phone, customer_mail) VALUES (%s, %s, %s, %s)"
+            query = "INSERT INTO customer (customer_username, customer_pwd, customer_phone, customer_mail) VALUES (%s, %s, %s, %s)"
 
 
             cursor.execute(
@@ -742,8 +742,8 @@ class Login(Resource):
                 connection = db_connection.connect_mysql()
                 cursor = connection.cursor()
 
-                query = "SELECT customer_id FROM store WHERE (store_username = %s OR store_number = %s) AND store_pwd = %s"
-                cursor.execute(query, (username, username, password))
+                query = "SELECT customer_id FROM customer WHERE customer_username = %s AND customer_pwd = %s"
+                cursor.execute(query, (username, password))
                 result = cursor.fetchone()
 
                 cursor.close()
@@ -752,7 +752,7 @@ class Login(Resource):
                 if result:
                     return {
                         "message": "Login successful",
-                        "storid": result[0],
+                        "cus_id": result[0],
                     }, 200
                 else:
                     # Username not found in the database
